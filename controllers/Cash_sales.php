@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends CI_Controller {
+class Cash_sales extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -18,8 +18,14 @@ class Welcome extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
-		$this->load->view('blank');
+	public function index(){
+		$this->load->model('products_model');
+		$this->load->model('members_model');
+
+
+		$data['product'] = $this->products_model->get_all();
+		$data['customers'] = $this->members_model->get_all();
+
+		$this->load->view('cash_sales/index',$data);
 	}
 }

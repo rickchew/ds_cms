@@ -1,0 +1,1 @@
+<footer class="footer"> © 2017 powered By www.DesignSpace.my | rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  ' V <strong>' . CI_VERSION . '</strong>' : '' ?></footer>

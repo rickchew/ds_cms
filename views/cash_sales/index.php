@@ -100,7 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
                             </div>
 
-                            <small class="text-muted"><!--Donec id elit non mi porta.--></small>
+                            <small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
                                 </a>
                               </h5> </div>
                                 <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -116,14 +116,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Price</label>
+                                                    <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
                                                     <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this)" onchange="singleUpdate(this)" value="<?php echo $pro->ds_product_price?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="control-label"><!--Action-->&nbsp;</label>
-                                                    <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
-                                                    <button class="delBtn btn btn-danger form-control" value=""><span style="color:#fff">REMOVE</span><!--<i class="mdi mdi-delete-forever" style="color:#fff"></i>--></button>
+                                                    <label class="control-label">Taken</label>
+                                                    <input type="number" class="form-control takenInput" value="">
                                                 </div>
                                             </div>
                                         </div>
@@ -158,7 +158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>-->
                     </div>
                     <div class="col-4">
-                        <form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">
+                        <form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>" method="post">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
@@ -184,14 +184,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-12">
                                         <!--<input id="lastRandom" type="text">-->
-                                        <textarea class="form-control" placeholder="Add Sales Note"></textarea>
                                         
+                                        <a href="javascript:void(0)" onclick="$('#salesNoteID').show();(this).hide()"><small>Add Sales Note</small></a>
+                                        <div style="display: none" id="salesNoteID">
+                                        <hr>
+                                        <textarea class="form-control" placeholder="Add Sales Note" name="salesNote" ></textarea>
+                                        </div>
                                         <hr>
                                         <div>Sub-total <span class="pull-right" style="font-weight: 500" id="subtotalDisplay">RM 0.00</span></div>
                                         <div>Discount <span class="pull-right" style="font-weight: 500">- RM 0.00</span></div>
                                         <div>GST 6% <span class="pull-right" style="font-weight: 500" id="gstDisplay">RM 0.00</span></div>
                                         <hr>
                                         <div>Total <span class="pull-right" style="font-weight: 500;font-size: 25px" id="totalAmtDisplay">RM 0.00</span> <small>(<span id="totalItemDisplay">0</span> Items)</small></div>
+
+
+                                        <!-- HIDDEN SUBMIT-->
+                                        <input type="hidden" id="hiddenMethod" name="hiddenMethod" value="">
+
+                                        <!-- HIDDEN SUBMIT-->
                                     </div>
                                     <div class="col-12">
                                     &nbsp;<br>
@@ -293,6 +303,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                   </div>
                   <div class="modal-body">
+                    <form id="methodFormID">
                     <div class="col-md-12">
                         <div id="accordion9" role="tablist">
 
@@ -322,7 +333,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="col-md-8">&nbsp;</label>
                                     <div class="input-group col-md-4 pull-right">
                                         <div class="input-group-addon">RM</div>
-                                        <input type="number" id="methodCash" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                        <input type="hidden" name="methodID[]" value="1">
+                                        <input type="hidden" name="methodRemark[]">
+                                        <input type="number" id="methodCash" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()" name="methodAmt[]">
                                     </div>
                                 </div>
                               </div>
@@ -356,12 +369,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                     <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
                                     <div class="input-group col-md-8">
-                                        <input type="text" class="form-control" placeholder="Remarks">
+                                        <input type="hidden" name="methodID[]" value="2">
+                                        <input type="text" class="form-control" placeholder="Remarks" name="methodRemark[]">
                                     </div>
 
                                     <div class="input-group col-md-4 pull-right">
                                         <div class="input-group-addon">RM</div>
-                                        <input type="number" id="methodCard" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                        <input type="number" id="methodCard" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()" name="methodAmt[]">
                                     </div>
                                 </div>
                               </div>
@@ -390,12 +404,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group row m-b-0">
                                     <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
                                     <div class="input-group col-md-8">
-                                        <input type="text" class="form-control" placeholder="Remarks">
+                                        <input type="hidden" name="methodID[]" value="3">
+                                        <input type="text" class="form-control" placeholder="Remarks" name="methodRemark[]">
                                     </div>
 
                                     <div class="input-group col-md-4 pull-right">
                                         <div class="input-group-addon">RM</div>
-                                        <input type="number" id="methodOnline" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                        <input type="number" id="methodOnline" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()" name="methodAmt[]">
                                     </div>
                                 </div>
                               </div>
@@ -425,12 +440,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                     <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
                                     <div class="input-group col-md-8">
-                                        <input type="text" class="form-control" placeholder="Remarks">
+                                    <input type="hidden" name="methodID[]" value="4">
+                                        <input type="text" class="form-control" placeholder="Remarks" name="methodRemark[]">
                                     </div>
 
                                     <div class="input-group col-md-4 pull-right">
                                         <div class="input-group-addon">RM</div>
-                                        <input type="number" id="methodVoucher" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                        <input type="number" id="methodVoucher" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()" name="methodAmt[]">
                                     </div>
                                 </div>
                               </div>
@@ -438,15 +454,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>
                         </div>
                     </div>
+                    </form>
                     <div class="col-md-12">
                         &nbsp;<br>&nbsp;<br>
                         <div>
-                            <strong>Outstanding Balance </strong>
+                            <strong>Balance </strong>
                             <span class="pull-right" style="font-weight: 500;font-size: 25px" id="outStandingDisplay">RM 0.00</span> 
                         </div>
                     </div>
                   </div>
                   <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="methodFormBtn" style="display: none" onclick="generateInv();">Generate Invoice</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                   </div>
                 </div>
@@ -506,6 +524,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#div_"+running_number+" .qtyInput").attr("id","qtyInput_"+running_number);
             $("#div_"+running_number+" .qtyInput").attr("name","subItem[]");
             $("#div_"+running_number+" .delBtn").attr("onclick","$('#div_"+running_number+"').remove();singleUpdate(null)");
+            $("#div_"+running_number+" .takenInput").attr("id","takenInput_"+running_number);
 
             //var subAmt = $("input[name='pname[]']")
             //  .map(function(){return $(this).val();}).get();
@@ -550,9 +569,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             amtTotal = amtTotal >= 0 ? amtTotal.toFixed(2):0;
 
             $("#gstDisplay").html("RM "+gstVal);
+
             $("#totalAmtDisplay").html("RM "+amtTotal);
             
             $("#totalItemDisplay").html(totalItem);
+            $("#takenInput_"+running).val($("#qtyInput_"+running).val());
+            $("#takenInput_"+running).attr('max',$("#qtyInput_"+running).val());
 
         }
         function methodUpdate(){
@@ -585,6 +607,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#methodVoucherDisplay").html("RM "+methodVoucherVal.toFixed(2));
 
             $("#outStandingDisplay").html("RM "+outStanding.toFixed(2));
+
+            if(outStanding<=0){
+                $("#methodFormBtn").show();
+            }else{
+                $("#methodFormBtn").hide();
+            } //methodFormBtn
+        }
+        function generateInv(){
+            //console.log(JSON.stringify($("#methodFormID").serializeArray()));
+            $("#hiddenMethod").val(JSON.stringify($("#methodFormID").serializeArray()));
+            $("#cashierForm").submit();
         }
 
         function checkCustomer(){

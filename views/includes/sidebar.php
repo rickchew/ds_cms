@@ -72,6 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php endif?>
             <?php endforeach?>
             <!-- <?php echo anchor($pv->menu_url,'<i class="'.$pv->menu_icon.'"></i><span>'.$pv->menu_name.'</span>',array('class' => 'has-arrow waves-effect waves-dark'))?> -->
+            <li class=""> <a class="waves-effect waves-dark" href="<?php echo site_url('logout')?>" aria-expanded="false"><i class="mdi mdi-logout-variant"></i><span class="hide-menu">Logout</span></a></li>
         </ul>
     </nav>
     <!-- End Sidebar navigation -->

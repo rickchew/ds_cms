@@ -109,6 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Quantity</label>
+                                                    <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
                                                     <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this)" min="1" onchange="singleUpdate(this)"
                                                      value="1">
                                                 </div>
@@ -200,6 +201,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                         <!-- HIDDEN SUBMIT-->
                                         <input type="hidden" id="hiddenMethod" name="hiddenMethod" value="">
+                                        <input type="hidden" id="paymentAmt" name="paymentAmt">
+                                        <input type="hidden" id="paymentGst" name="paymentGst">
+                                        <input type="hidden" id="paymentTotal" name="paymentTotal">
+                                        <input type="hidden" name="docDate" value="<?php echo date('Y-m-d')?>">
+                                        <input type="hidden" value="<?php echo $this->session->userdata('outlet_id')?>" name="outletID">
 
                                         <!-- HIDDEN SUBMIT-->
                                     </div>
@@ -516,15 +522,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#div_"+running_number+" a").attr("aria-controls", "collapse_"+running_number);
             $("#div_"+running_number+" .collapse").attr("id", "collapse_"+running_number);
             $("#coll_attr").attr("id", "#collapse_"+running_number);
-            //$("#qty_display").attr('id',"qty_display_"+running_number);
             $("#div_"+running_number+" .qtyDisplay").attr("id","qtyDisplay_"+running_number);
+            $("#div_"+running_number+" .delBtn").attr("onclick","$('#div_"+running_number+"').remove();singleUpdate(null)");
+
             $("#div_"+running_number+" .priceInput").attr("id","priceInput_"+running_number);
+            $("#div_"+running_number+" .priceInput").attr("name","subPrice[]");
+
             $("#div_"+running_number+" .amtInput").attr("id","amtInput_"+running_number);
             $("#div_"+running_number+" .amtInput").attr("name","subAmt[]");
+
             $("#div_"+running_number+" .qtyInput").attr("id","qtyInput_"+running_number);
             $("#div_"+running_number+" .qtyInput").attr("name","subItem[]");
-            $("#div_"+running_number+" .delBtn").attr("onclick","$('#div_"+running_number+"').remove();singleUpdate(null)");
+
             $("#div_"+running_number+" .takenInput").attr("id","takenInput_"+running_number);
+            $("#div_"+running_number+" .takenInput").attr("name","subTaken[]");
+
+            $("#div_"+running_number+" .productID").attr("name","productID[]");
+
+            
+            
 
             //var subAmt = $("input[name='pname[]']")
             //  .map(function(){return $(this).val();}).get();
@@ -575,6 +591,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#totalItemDisplay").html(totalItem);
             $("#takenInput_"+running).val($("#qtyInput_"+running).val());
             $("#takenInput_"+running).attr('max',$("#qtyInput_"+running).val());
+
+            $("#paymentGst").val(gstVal);
+            $("#paymentAmt").val(eval_subAmt);
+            $("#paymentTotal").val(amtTotal);
 
         }
         function methodUpdate(){

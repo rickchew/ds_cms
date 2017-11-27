@@ -79,6 +79,7 @@ class VerifyLogin extends CI_Controller {
 			$this->session->set_userdata("name",$result->fullname);
 			$this->session->set_userdata('logged_in', "1");
 			$this->session->set_userdata('group_id', $result->group_id);
+			$this->session->set_userdata('outlet_id', $result->cms_users_store_id);
 			//$this->session->set_userdata('branch_id', $result->branch_id);
 			$this->session->set_userdata('group_name', $result->description);
 			//$this->session->set_userdata('normal_hour', $result->working_hour);

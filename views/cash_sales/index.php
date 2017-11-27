@@ -7,6 +7,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <?php $this->load->view('includes/header')?>
     <link href="<?php echo base_url('assets/plugins/select2/dist/css/select2.min.css')?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/sweetalert/sweetalert.css')?>" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url('assets/plugins/wizard/steps.css')?>" rel="stylesheet">
+    <style type="text/css">
+    .priceDisplay{
+        font-weight: 500;
+        color: #333;
+    }
+    .qtyDisplay{
+        font-weight: 500;
+        color: #333;
+    }
+    .btn-lg.double-height {
+        line-height: 6;
+    }
+    </style>
 </head>
 
 <body class="fix-header card-no-border fix-sidebar">
@@ -82,7 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
                                   <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;<?php echo $pro->ds_product_name?></h5>
-                                <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span><!--<small class="text-muted"></small>-->
+                                <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
                             </div>
 
                             <small class="text-muted"><!--Donec id elit non mi porta.--></small>
@@ -94,7 +109,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Quantity</label>
-                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this)" onchange="singleUpdate(this)"
+                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this)" min="1" onchange="singleUpdate(this)"
                                                      value="1">
                                                 </div>
                                             </div>
@@ -105,10 +120,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
-                                                
                                                 <div class="form-group">
-                                                    <label class="control-label">Sub Total</label>
-                                                    <input type="text" class="form-control amtInput" name="subAmt[]" value="<?php echo $pro->ds_product_price?>">
+                                                    <label class="control-label"><!--Action-->&nbsp;</label>
+                                                    <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
+                                                    <button class="delBtn btn btn-danger form-control" value=""><span style="color:#fff">REMOVE</span><!--<i class="mdi mdi-delete-forever" style="color:#fff"></i>--></button>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,12 +158,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>-->
                     </div>
                     <div class="col-4">
+                        <form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
+                                    <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
                                         <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()">
-                                            <option>&nbsp;</option>
+                                            <option>- Cash Sales -</option>
+
                                             <option value="0">- ADD NEW CUSTOMER -</option>
                                             <?php foreach($customers as $customer):?>
                                             <option value="<?php echo $customer->mod_clients_id?>"><?php echo $customer->mod_clients_nric ? $customer->mod_clients_fullname.'('.$customer->mod_clients_nric.')':$customer->mod_clients_fullname?></option>
@@ -161,43 +179,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
                                             <div class="product_well" style="display: none">
                                             </div>
-                                            <!--
-                                            <div class="card product_well" style="margin-bottom: 0px">
-                                                <div class="card-header" role="tab" id="headingTwo">
-                                                    <h5 class="mb-0">
-                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                                  <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">Hydra Intensive Toner</h5>
-                                                <small class="text-muted">RM 3000</small>
-                                            </div>
-                                            <small class="text-muted">Donec id elit non mi porta.</small>
-                                                </a>
-                                              </h5> </div>
-                                                <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                                    <div class="card-body"> 
-                                                        <div class="row">
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Quantity</label>
-                                                                    <input type="text" class="form-control" value="1">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Price</label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-4">
-                                                                <div class="form-group">
-                                                                    <label class="control-label">Include GST</label>
-                                                                    <input type="text" class="form-control">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>-->
                                         </div>
                                         &nbsp;<br>
                                     </div>
@@ -206,23 +187,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <textarea class="form-control" placeholder="Add Sales Note"></textarea>
                                         
                                         <hr>
-                                        <div>Sub-total <span class="pull-right" style="font-weight: 500">RM 123.00</span></div>
-                                        <div>Discount <span class="pull-right" style="font-weight: 500">- RM 10.00</span></div>
-                                        <div>GST 6% <span class="pull-right" style="font-weight: 500">RM 6.50</span></div>
+                                        <div>Sub-total <span class="pull-right" style="font-weight: 500" id="subtotalDisplay">RM 0.00</span></div>
+                                        <div>Discount <span class="pull-right" style="font-weight: 500">- RM 0.00</span></div>
+                                        <div>GST 6% <span class="pull-right" style="font-weight: 500" id="gstDisplay">RM 0.00</span></div>
                                         <hr>
-                                        <div>Total <span class="pull-right" style="font-weight: 500;font-size: 25px">RM 1,233.50</span></div>
+                                        <div>Total <span class="pull-right" style="font-weight: 500;font-size: 25px" id="totalAmtDisplay">RM 0.00</span> <small>(<span id="totalItemDisplay">0</span> Items)</small></div>
                                     </div>
                                     <div class="col-12">
                                     &nbsp;<br>
-                                    <button type="button" class="btn btn-block btn-lg btn-info">PAY</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">PAY</button>
                                     </div>
+                                    <!--</form>-->
                                 </div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
                 <!-- End PAge Content -->
                 <!-- Right sidebar -->
+                <!-- footer -->
+                <?php $this->load->view('includes/footer')?>
+                <!-- End footer -->
             </div>
             <!-- End Container fluid  -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -296,9 +282,180 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
               </div>
             </div>
-            <!-- footer -->
-            <?php $this->load->view('includes/footer')?>
-            <!-- End footer -->
+
+            <div id="paymentModal" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Payment Method</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="col-md-12">
+                        <div id="accordion9" role="tablist">
+
+                        <!--***********************
+
+                                    CASH
+
+                        **************************-->
+                          <div class="card" style="margin-bottom: 0px">
+                            <div class="card-header" role="tab" id="headingOne">
+                              <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse001" aria-expanded="true" aria-controls="collapse001">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1"><span >1. CASH</span></h5>
+                                        <span class="priceDisplay" id="methodCashDisplay">RM 0.00</span>
+                                    </div>
+
+                                    <!--<small class="text-muted">Donec id elit non mi porta</small>-->
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapse001" class="collapse show" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion9">
+                              <div class="card-body">
+                                <div class="form-group row m-b-0">
+
+                                    <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
+                                    <label class="col-md-8">&nbsp;</label>
+                                    <div class="input-group col-md-4 pull-right">
+                                        <div class="input-group-addon">RM</div>
+                                        <input type="number" id="methodCash" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!--***********************
+
+                                    CARD
+
+                        **************************-->
+
+
+
+                          <div class="card" style="margin-bottom: 0px">
+                            <div class="card-header" role="tab" id="headingTwo">
+                              <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse002" aria-expanded="true" aria-controls="collapse002">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1"><span >2. CREDIT / DEBIT CARD</span></h5>
+                                        <span class="priceDisplay" id="methodCardDisplay">RM 0.00</span>
+                                    </div>
+
+                                    <!--<small class="text-muted">Donec id elit non mi porta</small>-->
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapse002" class="collapse" role="tabpanel" aria-labelledby="headingTwo" data-parent="#accordion9">
+                              <div class="card-body">
+                                <div class="form-group row m-b-0">
+
+                                    <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
+                                    <div class="input-group col-md-8">
+                                        <input type="text" class="form-control" placeholder="Remarks">
+                                    </div>
+
+                                    <div class="input-group col-md-4 pull-right">
+                                        <div class="input-group-addon">RM</div>
+                                        <input type="number" id="methodCard" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--***********************
+
+                                    INTERNET BANKING
+
+                        **************************-->
+                          <div class="card" style="margin-bottom: 0px">
+                            <div class="card-header" role="tab" id="headingThree">
+                              <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse003" aria-expanded="true" aria-controls="collapse003">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1"><span >3. INTERNET BANKING</span></h5>
+                                        <span class="priceDisplay" id="methodOnlineDisplay">RM 0.00</span>
+                                    </div>
+
+                                    <!--<small class="text-muted">Donec id elit non mi porta</small>-->
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapse003" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion9">
+                              <div class="card-body">
+                                <div class="form-group row m-b-0">
+                                    <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
+                                    <div class="input-group col-md-8">
+                                        <input type="text" class="form-control" placeholder="Remarks">
+                                    </div>
+
+                                    <div class="input-group col-md-4 pull-right">
+                                        <div class="input-group-addon">RM</div>
+                                        <input type="number" id="methodOnline" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--***********************
+
+                                    Voucher
+
+                        **************************-->
+                          <div class="card" style="margin-bottom: 0px">
+                            <div class="card-header" role="tab" id="headingThree">
+                              <h5 class="mb-0">
+                                <a data-toggle="collapse" href="#collapse004" aria-expanded="true" aria-controls="collapse004">
+                                  <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1"><span >4. PRODUCT VOUCHER</span></h5>
+                                        <span class="priceDisplay" id="methodVoucherDisplay">RM 0.00</span>
+                                    </div>
+
+                                    <!--<small class="text-muted">Donec id elit non mi porta</small>-->
+                                </a>
+                              </h5>
+                            </div>
+                            <div id="collapse004" class="collapse" role="tabpanel" aria-labelledby="headingThree" data-parent="#accordion9">
+                              <div class="card-body">
+                                <div class="form-group row m-b-0">
+
+                                    <!--<label class="control-label text-right col-md-9 form-control" style="border:0px">Cash</label>-->
+                                    <div class="input-group col-md-8">
+                                        <input type="text" class="form-control" placeholder="Remarks">
+                                    </div>
+
+                                    <div class="input-group col-md-4 pull-right">
+                                        <div class="input-group-addon">RM</div>
+                                        <input type="number" id="methodVoucher" class="form-control text-right" onkeyup="methodUpdate()" onchange="methodUpdate()">
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        &nbsp;<br>&nbsp;<br>
+                        <div>
+                            <strong>Outstanding Balance </strong>
+                            <span class="pull-right" style="font-weight: 500;font-size: 25px" id="outStandingDisplay">RM 0.00</span> 
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+                  
+              </div>
+
+              </div>
+            </div>
+            
         </div>
         <!-- End Page wrapper  -->
     </div>
@@ -308,6 +465,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url()?>assets/plugins/select2/dist/js/select2.full.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url()?>assets/plugins/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
     <script src="<?php echo base_url('assets/minimal/js/mask.js')?>"></script>
+    <script src="<?php echo base_url('assets/plugins/sweetalert/sweetalert.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/plugins/wizard/jquery.steps.min.js')?>"></script><!--
+    <script src="<?php echo base_url('assets/plugins/wizard/jquery.validate.min.js')?>"></script>-->
+
     <script type="text/javascript">
         $(".select2").select2();
         /*
@@ -339,57 +500,112 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#coll_attr").attr("id", "#collapse_"+running_number);
             //$("#qty_display").attr('id',"qty_display_"+running_number);
             $("#div_"+running_number+" .qtyDisplay").attr("id","qtyDisplay_"+running_number);
-            $("#div_"+running_number+" .qtyInput").attr("id","qtyInput_"+running_number);
             $("#div_"+running_number+" .priceInput").attr("id","priceInput_"+running_number);
             $("#div_"+running_number+" .amtInput").attr("id","amtInput_"+running_number);
+            $("#div_"+running_number+" .amtInput").attr("name","subAmt[]");
+            $("#div_"+running_number+" .qtyInput").attr("id","qtyInput_"+running_number);
+            $("#div_"+running_number+" .qtyInput").attr("name","subItem[]");
+            $("#div_"+running_number+" .delBtn").attr("onclick","$('#div_"+running_number+"').remove();singleUpdate(null)");
 
-            var subAmt = $("input[name='pname[]']")
-              .map(function(){return $(this).val();}).get();
-            console.log(subAmt);
+            //var subAmt = $("input[name='pname[]']")
+            //  .map(function(){return $(this).val();}).get();
+            //var 
+            singleUpdate(null,running_number);
+            methodUpdate();
+            
         }
-        function singleUpdate(para){
-            var running = para.id.split('_');
-            running = running[1];
+        function singleUpdate(para,run=null){
+            //var running = para.id.split('_');
+
+            if(para == null){
+                //console.log(1);
+                running = run;
+            }else{
+                //console.log(2);
+                running = para.id.split('_');
+                running = running[1];
+            }
+            
             var totalPrice = parseFloat($("#qtyInput_"+running).val()) * parseFloat($("#priceInput_"+running).val());
+            totalPrice = totalPrice > 0 ? totalPrice.toFixed(2):totalPrice;
 
 
             $("#qtyDisplay_"+running).html($("#qtyInput_"+running).val());
             $("#div_"+running+" .priceDisplay").html("RM "+totalPrice);
             $("#amtInput_"+running).val(totalPrice);
-            //console.log();
-            //console.log();
+
+            var subAmt = $("input[name='subAmt[]'").map(function(){return $(this).val();}).get();
+            var totalItem = $("input[name='subItem[]'").map(function(){return $(this).val();}).get();
+
+            var eval_subAmt = eval(subAmt.join("+"));
+            var totalItem = eval(totalItem.join("+"));
+            //console.log(eval_subAmt);
+            eval_subAmt = eval_subAmt >= 0 ? eval_subAmt.toFixed(2):0;
+
+            $("#subtotalDisplay").html('RM '+eval_subAmt);
+
+            var gstVal = eval_subAmt*0.06;
+            gstVal = gstVal >=0 ? gstVal.toFixed(2):0;
+            var amtTotal = parseFloat(eval_subAmt)+parseFloat(gstVal);
+            amtTotal = amtTotal >= 0 ? amtTotal.toFixed(2):0;
+
+            $("#gstDisplay").html("RM "+gstVal);
+            $("#totalAmtDisplay").html("RM "+amtTotal);
+            
+            $("#totalItemDisplay").html(totalItem);
+
+        }
+        function methodUpdate(){
+            var eval_subAmt = eval($("input[name='subAmt[]'").map(function(){return $(this).val();}).get().join("+"));
+            var gstVal = eval_subAmt*0.06;
+            var amtTotal = parseFloat(eval_subAmt)+parseFloat(gstVal);
+
+            var methodCashVal = $("#methodCash").val() >= 0 ? parseFloat($("#methodCash").val()):0;
+            var methodCardVal = $("#methodCard").val() >= 0 ? parseFloat($("#methodCard").val()):0;
+            var methodOnlineVal = $("#methodOnline").val() >= 0 ? parseFloat($("#methodOnline").val()):0;
+            var methodVoucherVal = $("#methodVoucher").val() >= 0 ? parseFloat($("#methodVoucher").val()):0;
+
+            gstVal = gstVal || 0;
+            amtTotal = amtTotal || 0;
+            methodCashVal = methodCashVal || 0;
+            methodCardVal = methodCardVal || 0;
+            methodOnlineVal = methodOnlineVal || 0;
+            methodVoucherVal = methodVoucherVal || 0;
+
+            var outStanding;
+
+            outStanding = outStanding || 0;
+            outStanding = methodCashVal + methodCardVal + methodOnlineVal + methodVoucherVal;
+            outStanding = amtTotal - outStanding;
+            
+
+            $("#methodCashDisplay").html("RM "+methodCashVal.toFixed(2));
+            $("#methodCardDisplay").html("RM "+methodCardVal.toFixed(2));
+            $("#methodOnlineDisplay").html("RM "+methodOnlineVal.toFixed(2));
+            $("#methodVoucherDisplay").html("RM "+methodVoucherVal.toFixed(2));
+
+            $("#outStandingDisplay").html("RM "+outStanding.toFixed(2));
         }
 
         function checkCustomer(){
-            //alert('666');
             if($("#customer_select").val()==0){
                 $('#myModal').modal('toggle');
             }
         }
         function checkComplete(){
-            //alert('1');
-            //console.log($("#nric").val().substring(13, 14));
             if($("#nric").val().substring(13, 14) >= 0){
                 nricAuto();
             }
         }
         function nric_chg(){
-
+            $("#nric").hide();
+            $("#passport").hide();
             if($("#basic_checkbox_2").is(':checked')){
                 $("#passport").show();
-                $("#nric").hide();
-                //alert('1');
                 $(".nric").html('Passport');
-                //$("#nric").attr("name","passport");
-                //$("#nric").attr("data-mask","");
-                //data-mask="999999-99-9999"
             }else{
-                $("#passport").hide();
                 $("#nric").show();
                 $(".nric").html('NRIC');
-                //$("#nric").attr("name","nric");
-                //$("#nric").attr("data-mask","999999-99-9999");
-                //alert(9);
             }
         }
         
@@ -511,7 +727,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             getJSON('<?php echo site_url('members/check_ic/')?>'+ic_val).then(function(data) {
                 //console.log(data.mod_clients_fullname);
                 if(data){
-                    alert(data.mod_clients_fullname+'-'+$('#nric').val()+' is EXISTED!')
+                    //alert(data.mod_clients_fullname+'-'+$('#nric').val()+' is EXISTED!');
+                    swal("Duplicated :"+data.mod_clients_fullname);
                     $(".nric-danger").addClass("has-danger");
                     $("#nric").addClass("form-control-danger");
                 }else{

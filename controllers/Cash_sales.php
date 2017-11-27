@@ -26,6 +26,8 @@ class Cash_sales extends CI_Controller {
 		$data['product'] = $this->products_model->get_all();
 		$data['customers'] = $this->members_model->get_all();
 
+
+		$data['active_menu_id'] = '91';
 		$this->load->view('cash_sales/index',$data);
 	}
 }

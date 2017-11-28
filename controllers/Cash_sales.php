@@ -21,16 +21,18 @@ class Cash_sales extends CI_Controller {
 		$paymentJson = $this->input->post('hiddenMethod');
 		$paymentJson = json_decode($paymentJson);
 
-
+		print_r($this->input->post());
 		/*----------------------------
 
 				MAIN DOC SAVE
 
 		------------------------------*/
+		$mainArr['pos_doc_date'] = date('Y-m-d H:i:s');
 		$mainArr['pos_doc_date_created'] = date('Y-m-d H:i:s');
 		$mainArr['pos_doc_payment_wo_gst'] = $this->input->post('paymentAmt');
 		$mainArr['pos_doc_payment_gst'] = $this->input->post('paymentGst');
 		$mainArr['pos_doc_payment_total'] = $this->input->post('paymentTotal');
+		$mainArr['pos_doc_customer_id'] = $this->input->post('membersID');
 		$mainArr['pos_doc_branch_id'] = $this->input->post('outletID');
 		$mainArr['pos_doc_type_id'] = 1 ; //INVOICE
 
@@ -125,7 +127,8 @@ class Cash_sales extends CI_Controller {
 		$this->load->model('doc_model');
 
 		$data['docs'] = $this->doc_model->getDocByID($id);
+		$data['child'] = $this->doc_model->getChildByID($id);
 
-		$this->load->view('cash_sales/details');
+		$this->load->view('cash_sales/details',$data);
 	}
 }

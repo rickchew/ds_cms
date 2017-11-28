@@ -4,6 +4,68 @@ if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Doc_model extends CI_Model{
+
+	public $table = 'pos_doc';
+    public $id = 'pos_doc_id';
+    public $order = 'DESC';
+
+    function __construct(){
+        parent::__construct();
+    }
+    function get_all(){
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get($this->table)->result();
+    }
+    function get_by_id($id){
+        $this->db->where($this->id, $id);
+        return $this->db->get($this->table)->row();
+    }
+    function total_rows($q = NULL) {
+
+        $this->db->like('pos_doc_id', $q);
+		//$this->db->or_like('pos_doc_type_id', $q);
+		$this->db->or_like('pos_doc_inv_id', $q);
+		//$this->db->or_like('pos_doc_customer_id', $q);
+		$this->db->or_like('pos_doc_date', $q);
+		//$this->db->or_like('pos_doc_branch_id', $q);
+		//$this->db->or_like('pos_doc_payment_wo_gst', $q);
+		//$this->db->or_like('pos_doc_payment_gst', $q);
+		//$this->db->or_like('pos_doc_payment_total', $q);
+		//$this->db->or_like('pos_doc_is_package', $q);
+		//$this->db->or_like('pos_doc_quote_price', $q);
+		//$this->db->or_like('pos_doc_date_created', $q);
+		//$this->db->or_like('pos_doc_date_modified', $q);
+		//$this->db->or_like('pos_doc_created_by', $q);
+		//$this->db->or_like('pos_doc_modified_by', $q);
+		$this->db->from($this->table);
+	    
+	    return $this->db->count_all_results();
+    }
+    // get data with limit and search
+    function get_limit_data($limit, $start = 0, $q = NULL) {
+    	$this->db->join('pos_doc_type','pos_doc_type.pos_doc_type_id = pos_doc.pos_doc_type_id','left');
+    	$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');
+
+        $this->db->order_by($this->id, $this->order);
+        $this->db->like('pos_doc_id', $q);
+		//$this->db->or_like('pos_doc_type_id', $q);
+		$this->db->or_like('pos_doc_inv_id', $q);
+		//$this->db->or_like('pos_doc_customer_id', $q);
+		$this->db->or_like('pos_doc_date', $q);
+		//$this->db->or_like('pos_doc_branch_id', $q);
+		//$this->db->or_like('pos_doc_payment_wo_gst', $q);
+		//$this->db->or_like('pos_doc_payment_gst', $q);
+		//$this->db->or_like('pos_doc_payment_total', $q);
+		//$this->db->or_like('pos_doc_is_package', $q);
+		//$this->db->or_like('pos_doc_quote_price', $q);
+		//$this->db->or_like('pos_doc_date_created', $q);
+		//$this->db->or_like('pos_doc_date_modified', $q);
+		//$this->db->or_like('pos_doc_created_by', $q);
+		//$this->db->or_like('pos_doc_modified_by', $q);
+		$this->db->limit($limit, $start);
+        return $this->db->get($this->table)->result();
+    }
+
 	function batch_save_child($arr){
 		$this->db->insert_batch('pos_doc_child', $arr); 
 	}
@@ -16,11 +78,20 @@ class Doc_model extends CI_Model{
 		$branch_info = $this->branch_model->getByID($branchID);
 	}
 	function getDocByID($id){
+		$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id');
 		$this->db->where('pos_doc_id',$id);
 
 		$query = $this->db->get('pos_doc');
 
 		return $query->row();
+	}
+	function getChildByID($id){
+		$this->db->join('ds_product', 'ds_product.ds_product_id = pos_doc_child.pos_doc_child_product_id','left');
+		$this->db->where('pos_doc_id',$id);
+
+		$query = $this->db->get('pos_doc_child');
+
+		return $query->result();
 	}
    
 }

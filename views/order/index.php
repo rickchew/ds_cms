@@ -73,6 +73,53 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </div>
                                     </div>
                                 </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover success-bordered-table color-bordered-table">
+                                        <thead>
+                                            <tr>
+                                                <th>No</th>
+                                                <th>TYPE</th>
+                                                <th>Invoice No</th>
+                                                <th>Members Name</th>
+                                                <th>INV Date</th>
+                                                <th>Branch</th>
+                                                <th class="text-right">Total Amount</th>
+                                                <th class="text-right">Amount Paid</th>
+                                                <th>Order Amount</th>
+                                                <th class="text-center">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-weight: 400;">
+                                            <?php //print_r($doc_data)?>
+                                            <?php foreach ($doc_data as $doc):?>
+                                            <tr>
+                                                <td width="80px"><?php echo ++$start ?></td>
+                                                <td><?php echo $doc->pos_doc_type_name ?></td>
+                                                <td><?php echo $doc->pos_doc_inv_id ?></td>
+                                                <td><?php echo $doc->mod_clients_fullname ?></td>
+                                                <td><?php echo $doc->pos_doc_date ?></td>
+                                                <td><?php echo $doc->pos_doc_branch_id ?></td>
+                                                <td class="text-right"><?php echo $doc->pos_doc_payment_wo_gst ?></td>
+                                                <td class="text-right"><?php echo $doc->pos_doc_payment_total ?></td>
+                                                <td><?php echo $doc->pos_doc_quote_price ?></td>
+                                                <td style="text-align:center" width="200px">
+                                                    <div class="btn-group">
+                                                      <?php
+                                                      echo anchor(site_url('doc/read/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+                                                      echo anchor(site_url('doc/update/'.$doc->pos_doc_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
+                                                      
+                                                      ?>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php endforeach;?>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                &nbsp;<br>
+
+
                             </div>
                         </div>
                     </div>

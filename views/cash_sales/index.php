@@ -110,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="form-group">
                                                     <label class="control-label">Quantity</label>
                                                     <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
-                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this)" min="1" onchange="singleUpdate(this)"
+                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)"
                                                      value="1">
                                                 </div>
                                             </div>
@@ -118,13 +118,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="form-group">
                                                     <label class="control-label">Price</label>
                                                     <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
-                                                    <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this)" onchange="singleUpdate(this)" value="<?php echo $pro->ds_product_price?>">
+                                                    <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="<?php echo $pro->ds_product_price?>">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="control-label">Taken</label>
-                                                    <input type="number" class="form-control takenInput" value="">
+                                                    <input type="number" class="form-control takenInput" value="" min="0">
                                                 </div>
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="row">
                                     <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
-                                        <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()">
+                                        <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID">
                                             <option>- Cash Sales -</option>
 
                                             <option value="0">- ADD NEW CUSTOMER -</option>

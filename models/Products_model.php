@@ -20,6 +20,18 @@ class Products_model extends CI_Model
         $this->db->order_by($this->id, $this->order);
         return $this->db->get($this->table)->result();
     }
+    function get_all_is_service(){
+        $this->db->where('ds_product_is_service','1');
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get($this->table)->result();
+    }
+    function get_all_non_service(){
+        //$this->output->enable_profiler(TRUE);
+        $this->db->where('ds_product_is_service IS NULL');
+        $this->db->or_where('ds_product_is_service','');
+        $this->db->order_by($this->id, $this->order);
+        return $this->db->get($this->table)->result();
+    }
 
     // get data by id
     function get_by_id($id){

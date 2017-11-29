@@ -56,10 +56,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <form action="<?php echo site_url('product_category/index'); ?>" class="form-inline" method="get">
+                                        <form action="<?php echo site_url('order/index'); ?>" class="form-inline" method="get">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="q" value="<?php //echo $q; ?>" autocomplete="off" spellcheck="false">
+                                                <input type="text" class="form-control" name="q" value="<?php echo $q; ?>" spellcheck="false">
+
                                                 <span class="input-group-btn">
+                                                   <?php if ($q <> ''):?>
+                                                    <a href="<?php echo site_url('order'); ?>" class="btn btn-info">Reset</a>
+                                                    <?php endif?>
                                                   <button class="btn btn-success" type="submit">Search</button>
                                                 </span>
                                             </div>
@@ -68,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="pull-right">
-                                        <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> New Package', 'class="btn btn-success"'); ?>&nbsp;
+                                        <?php echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Package', 'class="btn btn-success"'); ?>&nbsp;
                                         <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> Cash Sales', 'class="btn btn-success"'); ?>
                                         </div>
                                     </div>
@@ -98,15 +102,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <td><?php echo $doc->pos_doc_inv_id ?></td>
                                                 <td><?php echo $doc->mod_clients_fullname ?></td>
                                                 <td><?php echo $doc->pos_doc_date ?></td>
-                                                <td><?php echo $doc->pos_doc_branch_id ?></td>
+                                                <td><?php echo $doc->ds_branch_name ?></td>
                                                 <td class="text-right"><?php echo $doc->pos_doc_payment_wo_gst ?></td>
                                                 <td class="text-right"><?php echo $doc->pos_doc_payment_total ?></td>
                                                 <td><?php echo $doc->pos_doc_quote_price ?></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
                                                       <?php
-                                                      echo anchor(site_url('doc/read/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
-                                                      echo anchor(site_url('doc/update/'.$doc->pos_doc_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
+                                                      echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+
+                                                      //echo $doc->pos_doc_inv_id == 1 ? '':anchor(site_url('doc/update/'.$doc->pos_doc_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
                                                       
                                                       ?>
                                                     </div>

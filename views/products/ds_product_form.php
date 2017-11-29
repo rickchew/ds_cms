@@ -81,12 +81,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <input class="form-control" type="text" name="ds_product_price" id="ds_product_price" value="<?php echo $ds_product_price; ?>" autocomplete="off">
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row m-b-0">
                                         <label for="example-search-input" class="col-2 col-form-label">&nbsp;</label>
                                         <div class="col-md-4">
                                             <div class="form-check">
                                                 <input type="checkbox" name="ds_product_enable" id="basic_checkbox_2" class="filled-in" <?php echo $ds_product_enable ? 'checked':''?>>
                                                 <label for="basic_checkbox_2">Enabled</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row m-b-0">
+                                        <label for="example-search-input" class="col-2 col-form-label">&nbsp;</label>
+                                        <div class="col-md-4">
+                                            <div class="form-check">
+                                                <input type="checkbox" name="ds_product_is_service" id="basic_checkbox_3" class="filled-in" <?php echo $ds_product_is_service ? 'checked':''?>>
+                                                <label for="basic_checkbox_3">IS TREAMENT</label>
                                             </div>
                                         </div>
                                     </div>

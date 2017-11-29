@@ -56,16 +56,16 @@ class Products extends CI_Controller{
         $row = $this->Products_model->get_by_id($id);
         if ($row) {
             $data = array(
-		'ds_product_id' => $row->ds_product_id,
-		'ds_product_name' => $row->ds_product_name,
-		'ds_product_category' => $row->ds_product_category,
-		'ds_product_enable' => $row->ds_product_enable,
-		'ds_product_price' => $row->ds_product_price,
-		'ds_product_date_created' => $row->ds_product_date_created,
-		'ds_product_last_modified' => $row->ds_product_last_modified,
-		'ds_product_created_by' => $row->ds_product_created_by,
-		'ds_product_modified_by' => $row->ds_product_modified_by,
-	    );
+    		'ds_product_id' => $row->ds_product_id,
+    		'ds_product_name' => $row->ds_product_name,
+    		'ds_product_category' => $row->ds_product_category,
+    		'ds_product_enable' => $row->ds_product_enable,
+    		'ds_product_price' => $row->ds_product_price,
+    		'ds_product_date_created' => $row->ds_product_date_created,
+    		'ds_product_last_modified' => $row->ds_product_last_modified,
+    		'ds_product_created_by' => $row->ds_product_created_by,
+    		'ds_product_modified_by' => $row->ds_product_modified_by,
+    	    );
             $data['active_menu_id'] = '82';
             $this->load->view('products/ds_product_read', $data);
         } else {
@@ -90,6 +90,7 @@ class Products extends CI_Controller{
 	    'ds_product_last_modified' => set_value('ds_product_last_modified'),
 	    'ds_product_created_by' => set_value('ds_product_created_by'),
 	    'ds_product_modified_by' => set_value('ds_product_modified_by'),
+        'ds_product_is_service' => set_value('ds_product_is_service'),
         'category_list' =>  $this->product_category_model->get_all(),
 	);
         $data['active_menu_id'] = '82';
@@ -103,6 +104,8 @@ class Products extends CI_Controller{
             $this->create();
         } else {
             $enable = $this->input->post('ds_product_enable') ? TRUE:FALSE;
+            $isService = $this->input->post('ds_product_is_service') ? TRUE:FALSE;
+
             $data = array(
     		'ds_product_name' => $this->input->post('ds_product_name',TRUE),
     		'ds_product_category' => $this->input->post('ds_product_category',TRUE),
@@ -112,6 +115,7 @@ class Products extends CI_Controller{
     		'ds_product_last_modified' => '',
     		'ds_product_created_by' => $this->session->userdata('user_id'),
     		'ds_product_modified_by' => '',
+            'ds_product_is_service' => $isService,
     	    );
 
             $this->Products_model->insert($data);
@@ -123,7 +127,7 @@ class Products extends CI_Controller{
     public function update($id) {
         //$this->output->enable_profiler(TRUE);
         $row = $this->Products_model->get_by_id($id);
-
+        //print_r($row);
 
         if ($row) {
             $this->load->model('product_category_model');
@@ -139,14 +143,17 @@ class Products extends CI_Controller{
         		'ds_product_category' => set_value('ds_product_category', $row->ds_product_category),
         		'ds_product_enable' => set_value('ds_product_enable', $row->ds_product_enable),
         		'ds_product_price' => set_value('ds_product_price', $row->ds_product_price),
+                'ds_product_is_service' => set_value('ds_product_is_service',$row->ds_product_is_service),
                 'category_list' =>  $this->product_category_model->get_all(),
 	    );
             $data['active_menu_id'] = '82';
+            //print_r($data);
             $this->load->view('products/ds_product_form', $data);
         } else {
             $this->session->set_flashdata('message', 'Record Not Found');
             redirect(site_url('products'));
         }
+
     }
     
     public function update_action() 
@@ -157,6 +164,8 @@ class Products extends CI_Controller{
             $this->update($this->input->post('ds_product_id', TRUE));
         } else {
             $enable = $this->input->post('ds_product_enable') ? TRUE:FALSE;
+            $isService = $this->input->post('ds_product_is_service') ? TRUE:FALSE;
+
             $data = array(
         		'ds_product_name' => $this->input->post('ds_product_name',TRUE),
         		'ds_product_category' => $this->input->post('ds_product_category',TRUE),
@@ -164,6 +173,7 @@ class Products extends CI_Controller{
         		'ds_product_price' => $this->input->post('ds_product_price',TRUE),
         		'ds_product_last_modified' => date('Y-m-d H:i:s'),
         		'ds_product_created_by' => $this->session->userdata('user_id'),
+                'ds_product_is_service' => $isService,
         	);
 
             $this->Products_model->update($this->input->post('ds_product_id', TRUE), $data);

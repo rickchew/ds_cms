@@ -21,22 +21,16 @@ class Doc_model extends CI_Model{
         return $this->db->get($this->table)->row();
     }
     function total_rows($q = NULL) {
+    	$this->db->join('pos_doc_type','pos_doc_type.pos_doc_type_id = pos_doc.pos_doc_type_id','left');
+    	$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');
+    	$this->db->join('ds_branch','ds_branch.ds_branch_id = pos_doc.pos_doc_branch_id','left');
 
         $this->db->like('pos_doc_id', $q);
-		//$this->db->or_like('pos_doc_type_id', $q);
 		$this->db->or_like('pos_doc_inv_id', $q);
-		//$this->db->or_like('pos_doc_customer_id', $q);
 		$this->db->or_like('pos_doc_date', $q);
-		//$this->db->or_like('pos_doc_branch_id', $q);
-		//$this->db->or_like('pos_doc_payment_wo_gst', $q);
-		//$this->db->or_like('pos_doc_payment_gst', $q);
-		//$this->db->or_like('pos_doc_payment_total', $q);
-		//$this->db->or_like('pos_doc_is_package', $q);
-		//$this->db->or_like('pos_doc_quote_price', $q);
-		//$this->db->or_like('pos_doc_date_created', $q);
-		//$this->db->or_like('pos_doc_date_modified', $q);
-		//$this->db->or_like('pos_doc_created_by', $q);
-		//$this->db->or_like('pos_doc_modified_by', $q);
+		$this->db->or_like('mod_clients.mod_clients_fullname', $q);
+		$this->db->or_like('ds_branch.ds_branch_name', $q);
+
 		$this->db->from($this->table);
 	    
 	    return $this->db->count_all_results();
@@ -45,23 +39,15 @@ class Doc_model extends CI_Model{
     function get_limit_data($limit, $start = 0, $q = NULL) {
     	$this->db->join('pos_doc_type','pos_doc_type.pos_doc_type_id = pos_doc.pos_doc_type_id','left');
     	$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');
+    	$this->db->join('ds_branch','ds_branch.ds_branch_id = pos_doc.pos_doc_branch_id','left');
 
         $this->db->order_by($this->id, $this->order);
         $this->db->like('pos_doc_id', $q);
-		//$this->db->or_like('pos_doc_type_id', $q);
 		$this->db->or_like('pos_doc_inv_id', $q);
-		//$this->db->or_like('pos_doc_customer_id', $q);
 		$this->db->or_like('pos_doc_date', $q);
-		//$this->db->or_like('pos_doc_branch_id', $q);
-		//$this->db->or_like('pos_doc_payment_wo_gst', $q);
-		//$this->db->or_like('pos_doc_payment_gst', $q);
-		//$this->db->or_like('pos_doc_payment_total', $q);
-		//$this->db->or_like('pos_doc_is_package', $q);
-		//$this->db->or_like('pos_doc_quote_price', $q);
-		//$this->db->or_like('pos_doc_date_created', $q);
-		//$this->db->or_like('pos_doc_date_modified', $q);
-		//$this->db->or_like('pos_doc_created_by', $q);
-		//$this->db->or_like('pos_doc_modified_by', $q);
+		$this->db->or_like('mod_clients.mod_clients_fullname', $q);
+		$this->db->or_like('ds_branch.ds_branch_name', $q);
+
 		$this->db->limit($limit, $start);
         return $this->db->get($this->table)->result();
     }

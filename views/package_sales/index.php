@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         font-weight: 500;
         color: #333;
     }
-    .card-body{
+    .card-body-shadow{
         box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.1) !important
     }
     </style>
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Bread crumb and right sidebar toggle -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor">Cash Sales</h3>
+                    <h3 class="text-themecolor">Package Sales</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
@@ -69,81 +69,142 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="col-7">
                         <div class="col-12">
-                            <!--
-                            <div class="card-body">
-                                This is some text within a card block.
-                            </div>-->
-                            <?php 
-                                //print_r($product)
-                                //print_r($customers);
-                            ?>
+
                         </div>
-                        <!--***************************
+
+                        <h3>Treatment</h3>
+                        <hr>
 
 
-                                    PRODUCT
 
-
-                        ****************************-->
                         <div class="row display-flex">
-                        <?php foreach($product as $pro):?>
-                        <div class="col-md-4 col-lg-4 col-xlg-3">
-                            <a href="javascript:void(0)" onclick='addCart(<?php echo $pro->ds_product_id?>);'>
-                            <div class="card card-body" style="color:#333">
-                                <div class=""><strong><?php echo $pro->ds_product_name?></strong><?php ?></div>
+                            <?php foreach($service as $pro):?>
+                            
+                            <div class="col-lg-3">
+                                <a href="javascript:void(0)" onclick='addCart(<?php echo $pro->ds_product_id?>);'>
+                                <div class="card card-body card-body-shadow" style="color:#333">
+                                    <div class=""><strong><?php echo $pro->ds_product_name?></strong><?php ?></div>
 
-                            </div>
-                            </a>
-                        </div>
-
-                        <!--TEMPLATES-->
-                        <div style="display: none">
-                            <div id="pro_<?php echo $pro->ds_product_id?>" class="card product_well" style="margin-bottom: 0px">
-                                <div class="card-header" role="tab" id="heading<?php echo $pro->ds_product_id?>">
-                                    <h5 class="mb-0">
-
-                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
-                                  <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;<?php echo $pro->ds_product_name?></h5>
-                                <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
-                            </div>
-
-                            <small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
+                                </div>
                                 </a>
-                              </h5> </div>
-                                <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Quantity</label>
-                                                    <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
-                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)"
-                                                     value="1">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Price</label>
-                                                    <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
-                                                    <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="<?php echo $pro->ds_product_price?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="control-label">Taken</label>
-                                                    <input type="number" class="form-control takenInput" value="" min="0">
+
+                                <!--TEMPLATES-->
+                                <div style="display: none">
+                                    <div id="pro_<?php echo $pro->ds_product_id?>" class="card product_well" style="margin-bottom: 0px">
+                                        <div class="card-header" role="tab" id="heading<?php echo $pro->ds_product_id?>">
+                                            <h5 class="mb-0">
+
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
+                                          <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;<?php echo $pro->ds_product_name?></h5>
+                                        <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
+                                    </div>
+
+                                    <small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
+                                        </a>
+                                      </h5> </div>
+                                        <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Quantity</label>
+                                                            <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
+                                                            <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)"
+                                                             value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Price</label>
+                                                            <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
+                                                            <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="<?php echo $pro->ds_product_price?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Taken</label>
+                                                            <input type="number" class="form-control takenInput" value="" min="0">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!--END TEMPLATES-->
+                            <?php endforeach?>
                         </div>
 
+                        <h3>Products</h3>
+                        <hr>
 
-                        <!--END TEMPLATES-->
-                        <?php endforeach?>
+
+
+
+
+
+
+
+                        <div class="row display-flex">
+                            <?php foreach($product as $pro):?>
+                            
+                            <div class="col-lg-3">
+                                <a href="javascript:void(0)" onclick='addCart(<?php echo $pro->ds_product_id?>);'>
+                                <div class="card card-body card-body-shadow" style="color:#333">
+                                    <div class=""><strong><?php echo $pro->ds_product_name?></strong><?php ?></div>
+
+                                </div>
+                                </a>
+
+                                <!--TEMPLATES-->
+                                <div style="display: none">
+                                    <div id="pro_<?php echo $pro->ds_product_id?>" class="card product_well" style="margin-bottom: 0px">
+                                        <div class="card-header" role="tab" id="heading<?php echo $pro->ds_product_id?>">
+                                            <h5 class="mb-0">
+
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
+                                          <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;<?php echo $pro->ds_product_name?></h5>
+                                        <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
+                                    </div>
+
+                                    <small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
+                                        </a>
+                                      </h5> </div>
+                                        <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Quantity</label>
+                                                            <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
+                                                            <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)"
+                                                             value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Price</label>
+                                                            <input type="hidden" class="form-control amtInput" value="0.00">
+                                                            <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="0.00">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Taken</label>
+                                                            <input type="number" class="form-control takenInput" value="" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END TEMPLATES-->
+                            <?php endforeach?>
                         </div>
                         <!--
                         <div class="col-md-4 col-lg-4 col-xlg-3">
@@ -175,7 +236,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
                                         <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID">
-                                            <option>- Cash Sales -</option>
+                                            <option>- Select Member -</option>
 
                                             <option value="0">- ADD NEW CUSTOMER -</option>
                                             <?php foreach($customers as $customer):?>
@@ -220,7 +281,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-12">
                                     &nbsp;<br>
-                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">PAY</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">ADD ORDER</button>
                                     </div>
                                     <!--</form>-->
                                 </div>
@@ -598,7 +659,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#totalAmtDisplay").html("RM "+amtTotal);
             
             $("#totalItemDisplay").html(totalItem);
-            $("#takenInput_"+running).val($("#qtyInput_"+running).val());
+            //$("#takenInput_"+running).val($("#qtyInput_"+running).val());
             $("#takenInput_"+running).attr('max',$("#qtyInput_"+running).val());
 
             $("#paymentGst").val(gstVal);

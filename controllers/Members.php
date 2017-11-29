@@ -47,7 +47,49 @@ class Members extends CI_Controller
         $this->load->view('members/mod_clients_list', $data);
     }
 
-    public function read($id) 
+    public function read($id){
+    	$this->output->enable_profiler(true);
+    	$this->load->model('doc_model');
+    	$row = $this->Members_model->get_by_id($id);
+    	$docs_inv = $this->doc_model->get_limit_data(100, $start = 0, $q = NULL,$member_id = $id);
+
+    	if ($row) {
+                $data = array(
+				'mod_clients_id' => $row->mod_clients_id,
+				'mod_clients_fullname' => $row->mod_clients_fullname,
+				'mod_clients_fullname_zh' => $row->mod_clients_fullname_zh,
+				'mod_clients_nric' => $row->mod_clients_nric,
+				'mod_clients_email' => $row->mod_clients_email,
+				'mod_clients_occupation' => $row->mod_clients_occupation,
+				'mod_clients_marital_status' => $row->mod_clients_marital_status,
+				'mod_clients_gender' => $row->mod_clients_gender,
+				'mod_clients_nationality' => $row->mod_clients_nationality,
+				'mod_clients_birthday' => $row->mod_clients_birthday,
+				'mod_clients_contact_1' => $row->mod_clients_contact_1,
+				'mod_clients_contact_2' => $row->mod_clients_contact_2,
+				'mod_clients_attr_1' => $row->mod_clients_attr_1,
+				'mod_clients_attr_2' => $row->mod_clients_attr_2,
+				'mod_clients_address' => $row->mod_clients_address,
+				'mod_clients_address_country' => $row->mod_clients_address_country,
+				'mod_clients_address_state' => $row->mod_clients_address_state,
+				//'col_05' => $row->col_05,
+				//'col_17' => $row->col_17,
+				//'col_21' => $row->col_21,
+				//'col_24' => $row->col_24,
+				//'col_25' => $row->col_25,
+				'mod_clients_passport' => $row->mod_clients_passport,
+				'mod_clients_place_of_birth' => $row->mod_clients_place_of_birth,
+			
+	    	);
+            $data['docs_inv'] = $docs_inv;
+    		$this->load->view('members/read',$data);
+        }else {
+            $this->session->set_flashdata('error_message', 'Record Not Found');
+            redirect(site_url('members'));
+        }
+    	
+    }
+    public function read_($id) 
     {
         $row = $this->Members_model->get_by_id($id);
         if ($row) {

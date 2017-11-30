@@ -170,11 +170,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-4">
                         <form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>" method="post">
                         <div class="card">
+                            
                             <div class="card-body">
                                 <div class="row">
                                     <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
-                                        <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID">
+                                        <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID" style="width: 100%; height:36px;">
                                             <option value="898">- Cash Sales -</option>
 
                                             <option value="0">- ADD NEW CUSTOMER -</option>
@@ -221,6 +222,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <div class="col-12">
                                     &nbsp;<br>
                                     <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">PAY</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-default">HOLD BILL</button>
                                     </div>
                                     <!--</form>-->
                                 </div>
@@ -244,22 +246,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form class="form" action="" method="post">
+                        <form class="form" action="<?php echo $action; ?>" method="post" id="custForm">
                             <div class="form-group m-t-20 m-l-10 m-r-10 row">
                                 <label for="example-text-input" class="col-2 col-form-label">Name</label>
                                 <div class="col-10">
-                                    <input class="form-control" type="text" value="" name="" id="cus_name" autocomplete="off" style="text-transform:uppercase">
+                                    <input class="form-control" type="text" value="" name="mod_clients_fullname" id="cus_name" autocomplete="off" style="text-transform:uppercase">
                                 </div>
                             </div>
                             <div class="form-group m-l-10 m-r-10 row">
                                 <label for="example-search-input" class="col-2 col-form-label nric">NRIC</label>
                                 <div class="col-6 nric-danger">
-                                    <input class="form-control form-control-danger" type="text" name="nric" id="nric" value="" autocomplete="off" data-mask="999999-99-9999" onkeyup="checkComplete()">
+                                    <input class="form-control form-control-danger" type="text" name="mod_clients_nric" id="nric" value="" autocomplete="off" data-mask="999999-99-9999" onkeyup="checkComplete()">
                                     <input class="form-control" type="text" name="passport" id="passport" value="" autocomplete="off" style="display: none">
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-check m-t-10">
-                                        <input type="checkbox" name="ds_product_enable" id="basic_checkbox_2" class="filled-in" onchange="nric_chg()">
+                                        <input type="checkbox" name="mod_clients_passport" id="basic_checkbox_2" class="filled-in" onchange="nric_chg()">
                                         <label for="basic_checkbox_2">Passport</label>
                                     </div>
                                 </div>
@@ -267,19 +269,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group m-t-20 m-l-10 m-r-10 row">
                                 <label for="example-text-input" class="col-2 col-form-label">Birthday</label>
                                 <div class="col-4">
-                                    <input class="form-control" type="text" value="" name="" id="birthday_id" autocomplete="off" data-mask="9999-99-99">
+                                    <input class="form-control" type="text" value="" name="mod_clients_birthday" id="birthday_id" autocomplete="off" data-mask="9999-99-99">
                                     <small class="font-13 text-muted">YYYY-MM-DD</small>
                                 </div>
                                 <label for="example-text-input" class="col-2 col-form-label text-right">Gender&nbsp; </label>
                                 <div class="col-md-4 m-t-5">
                                     <div class="radio-list">
                                         <label class="custom-control custom-radio">
-                                            <input id="radio1" name="radio" type="radio" value="1" class="custom-control-input">
+                                            <input id="radio1" name="mod_clients_gender" type="radio" value="1" class="custom-control-input">
                                             <span class="custom-control-indicator"></span>
                                             <span class="custom-control-description">Male</span>
                                         </label>
                                         <label class="custom-control custom-radio">
-                                            <input id="radio2" name="radio" type="radio" value="0" class="custom-control-input">
+                                            <input id="radio2" name="mod_clients_gender" type="radio" value="0" class="custom-control-input">
                                             <span class="custom-control-indicator"></span>
                                             <span class="custom-control-description">Female</span>
                                         </label>
@@ -289,7 +291,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="form-group m-t-20 m-l-10 m-r-10 row">
                                 <label for="example-text-input" class="col-2 col-form-label">Birthplace</label>
                                 <div class="col-6">
-                                    <input class="form-control" type="text" value="" name="" id="birth_place" autocomplete="off" style="text-transform:uppercase">
+                                    <input class="form-control" type="text" value="" name="mod_clients_address_state" id="birth_place" autocomplete="off" style="text-transform:uppercase">
+                                </div>
+                            </div>
+                            <div class="form-group m-t-20 m-l-10 m-r-10 row">
+                                <label for="example-text-input" class="col-2 col-form-label">Contact</label>
+                                <div class="col-6">
+                                    <input class="form-control" type="text" value="" name="mod_clients_contact_1" autocomplete="off">
                                 </div>
                             </div>
                             <!--
@@ -301,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success waves-effect text-left" data-dismiss="modal">Submit</button>
+                        <button type="button" class="btn btn-success waves-effect text-left" data-dismiss="modal" onclick="$('#custForm').submit()">Submit</button>
                         <button type="button" class="btn btn-inverse waves-effect text-left" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -754,10 +762,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("input[name=radio]").removeAttr("checked");
             //$("#nric").val().substring(13, 14)
             if($("#nric").val().substring(13, 14) %2==0){
-                $("input[name=radio][value=0]").attr('checked', 'checked');
+                $("input[name=mod_clients_gender][value=0]").attr('checked', 'checked');
 
             }else{
-                $("input[name=radio][value=1]").attr('checked', 'checked');
+                $("input[name=mod_clients_gender][value=1]").attr('checked', 'checked');
             }
 
             birthyear = birthyear > 25 ? '19'+birthyear:'20'+birthyear;

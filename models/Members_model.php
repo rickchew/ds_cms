@@ -51,7 +51,7 @@ class Members_model extends CI_Model
 	$this->db->or_like('col_05', $q);
 	$this->db->or_like('col_17', $q);
 	$this->db->or_like('col_21', $q);
-	$this->db->or_like('col_24', $q);
+	$this->db->or_like('mod_clients_blood_type', $q);
 	$this->db->or_like('col_25', $q);
 	$this->db->or_like('mod_clients_passport', $q);
 	$this->db->or_like('mod_clients_place_of_birth', $q);
@@ -82,7 +82,7 @@ class Members_model extends CI_Model
 	$this->db->or_like('col_05', $q);
 	$this->db->or_like('col_17', $q);
 	$this->db->or_like('col_21', $q);
-	$this->db->or_like('col_24', $q);
+	$this->db->or_like('mod_clients_blood_type', $q);
 	$this->db->or_like('col_25', $q);
 	$this->db->or_like('mod_clients_passport', $q);
 	$this->db->or_like('mod_clients_place_of_birth', $q);

@@ -153,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
                                     <div class="card-body">
                                         <div class="row m-l-10 m-r-10">
-                                            <?php print_r($docs_inv)?>
+                                            <?php //print_r($docs_inv)?>
                                             <div class="table-responsive">
                                     <table class="table table-hover success-bordered-table color-bordered-table">
                                         <thead>

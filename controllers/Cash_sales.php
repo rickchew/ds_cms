@@ -13,6 +13,8 @@ class Cash_sales extends CI_Controller {
 
 
 		$data['active_menu_id'] = '91';
+		$data['action'] = site_url('members/create_action/cash_sales');
+
 		$this->load->view('cash_sales/index',$data);
 	}
 	public function create_action(){

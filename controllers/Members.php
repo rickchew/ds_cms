@@ -75,7 +75,7 @@ class Members extends CI_Controller
 				//'col_05' => $row->col_05,
 				//'col_17' => $row->col_17,
 				//'col_21' => $row->col_21,
-				//'col_24' => $row->col_24,
+				//'mod_clients_blood_type' => $row->mod_clients_blood_type,
 				//'col_25' => $row->col_25,
 				'mod_clients_passport' => $row->mod_clients_passport,
 				'mod_clients_place_of_birth' => $row->mod_clients_place_of_birth,
@@ -115,7 +115,7 @@ class Members extends CI_Controller
 		'col_05' => $row->col_05,
 		'col_17' => $row->col_17,
 		'col_21' => $row->col_21,
-		'col_24' => $row->col_24,
+		'mod_clients_blood_type' => $row->mod_clients_blood_type,
 		'col_25' => $row->col_25,
 		'mod_clients_passport' => $row->mod_clients_passport,
 		'mod_clients_place_of_birth' => $row->mod_clients_place_of_birth,
@@ -152,7 +152,7 @@ class Members extends CI_Controller
 	    'col_05' => set_value('col_05'),
 	    'col_17' => set_value('col_17'),
 	    'col_21' => set_value('col_21'),
-	    'col_24' => set_value('col_24'),
+	    'mod_clients_blood_type' => set_value('mod_clients_blood_type'),
 	    'col_25' => set_value('col_25'),
 	    'mod_clients_passport' => set_value('mod_clients_passport'),
 	    'mod_clients_place_of_birth' => set_value('mod_clients_place_of_birth'),
@@ -160,7 +160,7 @@ class Members extends CI_Controller
         $this->load->view('members/mod_clients_form', $data);
     }
     
-    public function create_action() 
+    public function create_action($redirect=null) 
     {
         $this->_rules();
 
@@ -168,7 +168,7 @@ class Members extends CI_Controller
             $this->create();
         } else {
             $data = array(
-		'mod_clients_fullname' => $this->input->post('mod_clients_fullname',TRUE),
+		'mod_clients_fullname' => strtoupper($this->input->post('mod_clients_fullname',TRUE)), 
 		'mod_clients_fullname_zh' => $this->input->post('mod_clients_fullname_zh',TRUE),
 		'mod_clients_nric' => $this->input->post('mod_clients_nric',TRUE),
 		'mod_clients_email' => $this->input->post('mod_clients_email',TRUE),
@@ -187,7 +187,7 @@ class Members extends CI_Controller
 		'col_05' => $this->input->post('col_05',TRUE),
 		'col_17' => $this->input->post('col_17',TRUE),
 		'col_21' => $this->input->post('col_21',TRUE),
-		'col_24' => $this->input->post('col_24',TRUE),
+		'mod_clients_blood_type' => $this->input->post('mod_clients_blood_type',TRUE),
 		'col_25' => $this->input->post('col_25',TRUE),
 		'mod_clients_passport' => $this->input->post('mod_clients_passport',TRUE),
 		'mod_clients_place_of_birth' => $this->input->post('mod_clients_place_of_birth',TRUE),
@@ -195,7 +195,12 @@ class Members extends CI_Controller
 
             $this->Members_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('members'));
+            if($redirect){
+            	redirect(site_url($redirect));
+            }else{
+            	redirect(site_url('members'));
+            }
+            
         }
     }
     
@@ -227,7 +232,7 @@ class Members extends CI_Controller
 		'col_05' => set_value('col_05', $row->col_05),
 		'col_17' => set_value('col_17', $row->col_17),
 		'col_21' => set_value('col_21', $row->col_21),
-		'col_24' => set_value('col_24', $row->col_24),
+		'mod_clients_blood_type' => set_value('mod_clients_blood_type', $row->mod_clients_blood_type),
 		'col_25' => set_value('col_25', $row->col_25),
 		'mod_clients_passport' => set_value('mod_clients_passport', $row->mod_clients_passport),
 		'mod_clients_place_of_birth' => set_value('mod_clients_place_of_birth', $row->mod_clients_place_of_birth),
@@ -247,7 +252,7 @@ class Members extends CI_Controller
             $this->update($this->input->post('mod_clients_id', TRUE));
         } else {
             $data = array(
-		'mod_clients_fullname' => $this->input->post('mod_clients_fullname',TRUE),
+		'mod_clients_fullname' => strtoupper($this->input->post('mod_clients_fullname',TRUE)),
 		'mod_clients_fullname_zh' => $this->input->post('mod_clients_fullname_zh',TRUE),
 		'mod_clients_nric' => $this->input->post('mod_clients_nric',TRUE),
 		'mod_clients_email' => $this->input->post('mod_clients_email',TRUE),
@@ -266,7 +271,7 @@ class Members extends CI_Controller
 		//'col_05' => $this->input->post('col_05',TRUE),
 		//'col_17' => $this->input->post('col_17',TRUE),
 		//'col_21' => $this->input->post('col_21',TRUE),
-		//'col_24' => $this->input->post('col_24',TRUE),
+		//'mod_clients_blood_type' => $this->input->post('mod_clients_blood_type',TRUE),
 		//'col_25' => $this->input->post('col_25',TRUE),
 		'mod_clients_passport' => $this->input->post('mod_clients_passport',TRUE),
 		'mod_clients_place_of_birth' => $this->input->post('mod_clients_place_of_birth',TRUE),
@@ -303,17 +308,17 @@ class Members extends CI_Controller
 	$this->form_validation->set_rules('mod_clients_gender', 'mod clients gender', 'trim');
 	$this->form_validation->set_rules('mod_clients_nationality', 'mod clients nationality', 'trim');
 	$this->form_validation->set_rules('mod_clients_birthday', 'mod clients birthday', 'trim');
-	$this->form_validation->set_rules('mod_clients_contact_1', 'mod clients contact 1', 'trim|required');
+	$this->form_validation->set_rules('mod_clients_contact_1', 'mod clients contact 1', 'trim');
 	$this->form_validation->set_rules('mod_clients_contact_2', 'mod clients contact 2', 'trim');
-	$this->form_validation->set_rules('mod_clients_attr_1', 'mod clients attr 1', 'trim|required');
-	$this->form_validation->set_rules('mod_clients_attr_2', 'mod clients attr 2', 'trim|required');
+	$this->form_validation->set_rules('mod_clients_attr_1', 'mod clients attr 1', 'trim');
+	$this->form_validation->set_rules('mod_clients_attr_2', 'mod clients attr 2', 'trim');
 	$this->form_validation->set_rules('mod_clients_address', 'mod clients address', 'trim');
 	$this->form_validation->set_rules('mod_clients_address_country', 'mod clients address country', 'trim');
 	$this->form_validation->set_rules('mod_clients_address_state', 'mod clients address state', 'trim');
 	$this->form_validation->set_rules('col_05', 'col 05', 'trim');
 	$this->form_validation->set_rules('col_17', 'col 17', 'trim');
 	$this->form_validation->set_rules('col_21', 'col 21', 'trim');
-	$this->form_validation->set_rules('col_24', 'col 24', 'trim');
+	$this->form_validation->set_rules('mod_clients_blood_type', 'col 24', 'trim');
 	$this->form_validation->set_rules('col_25', 'col 25', 'trim');
 	$this->form_validation->set_rules('mod_clients_passport', 'mod clients passport', 'trim');
 	$this->form_validation->set_rules('mod_clients_place_of_birth', 'mod clients place of birth', 'trim');

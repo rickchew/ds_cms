@@ -17,6 +17,7 @@ class Doc_model extends CI_Model{
         return $this->db->get($this->table)->result();
     }
     function get_by_id($id){
+    	$this->db->join('ds_branch','ds_branch.ds_branch_id = pos_doc.pos_doc_branch_id','left');
         $this->db->where($this->id, $id);
         return $this->db->get($this->table)->row();
     }
@@ -106,6 +107,7 @@ class Doc_model extends CI_Model{
 	}
 	function getDocByID($id){
 		$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');
+		$this->db->join('ds_branch','ds_branch.ds_branch_id = pos_doc.pos_doc_branch_id','left');
 		$this->db->where('pos_doc_id',$id);
 
 		$query = $this->db->get('pos_doc');

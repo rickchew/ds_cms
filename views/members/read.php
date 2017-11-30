@@ -96,7 +96,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <div class="sl-left"> <img src="<?php echo base_url('assets/images/users/1.jpg')?>" alt="user" class="img-circle"> </div>
                                                 <div class="sl-right">
                                                     <div><a href="#" class="link"><?php echo "";?></a> <span class="sl-date">5 minutes ago</span>
-                                                        <p>Purchase 5 item(s) <a href="#"> Invoice S20171234</a></p>
+                                                        <p>Purchase 5 item(s) <a href="#"> Invoice S20171234</a></p> <-- this is demo
                                                         <div class="row">
                                                             <!--
                                                             <div class="col-lg-3 col-md-6 m-b-20"><img src="../assets/images/big/img1.jpg" class="img-responsive radius"></div>
@@ -153,7 +153,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
                                     <div class="card-body">
                                         <div class="row m-l-10 m-r-10">
-                                            <?php //$docs_inv)?>
+                                            <?php print_r($docs_inv)?>
                                             <div class="table-responsive">
                                     <table class="table table-hover success-bordered-table color-bordered-table">
                                         <thead>
@@ -172,11 +172,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php foreach($docs_inv as $inv):?>
                                             <tr>
                                                 <td width="80px"><?php echo ++$start ?></td>
-                                                <td></td>
-                                                <td>2017-11-28</td>
-                                                <td>SUTERA</td>
-                                                <td class="text-right">1520.00</td>
-                                                <td class="text-right">1611.20</td>
+                                                <td><?php echo $inv->pos_doc_inv_id?></td>
+                                                <td><?php echo $inv->pos_doc_date?></td>
+                                                <td><?php echo $inv->ds_branch_name?></td>
+                                                <td class="text-right"><?php echo $inv->pos_doc_payment_wo_gst?></td>
+                                                <td class="text-right"><?php echo $inv->pos_doc_payment_total?></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
                                                       <?php

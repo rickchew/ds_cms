@@ -48,7 +48,7 @@ class Members extends CI_Controller
     }
 
     public function read($id){
-    	$this->output->enable_profiler(true);
+    	//$this->output->enable_profiler(true);
     	$this->load->model('doc_model');
     	$row = $this->Members_model->get_by_id($id);
     	$docs_inv = $this->doc_model->get_limit_data(100, $start = 0, $q = NULL,$member_id = $id);

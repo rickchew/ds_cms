@@ -21,7 +21,7 @@ class Cash_sales extends CI_Controller {
 		$paymentJson = $this->input->post('hiddenMethod');
 		$paymentJson = json_decode($paymentJson);
 
-		print_r($this->input->post());
+		//print_r($this->input->post());
 		/*----------------------------
 
 				MAIN DOC SAVE
@@ -51,7 +51,7 @@ class Cash_sales extends CI_Controller {
 
 		------------------------------*/
 
-		print_r($this->input->post());
+		//print_r($this->input->post());
 		$totalItem = count($this->input->post('subItem'));
 		$itemArr = array();
 		$tmpArr = array();
@@ -128,8 +128,8 @@ class Cash_sales extends CI_Controller {
 
 		$data['docs'] = $this->doc_model->getDocByID($id);
 		$data['child'] = $this->doc_model->getChildByID($id);
-		$this->output->enable_profiler(true);
-		print_r($data);
+		//$this->output->enable_profiler(true);
+		//print_r($data);
 
 		$this->load->view('cash_sales/details',$data);
 	}

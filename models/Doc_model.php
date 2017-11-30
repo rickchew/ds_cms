@@ -64,12 +64,45 @@ class Doc_model extends CI_Model{
 		$this->db->insert_batch('pos_doc_child', $arr); 
 	}
 	function save_main($arr){
+		$arr['pos_doc_inv_id'] = $this->getNextInv($arr['pos_doc_branch_id']);
 		$this->db->insert('pos_doc',$arr);
 		return $this->db->insert_id();
 	}
 	function getNextInv($branch){
+		//$this->load->model('branch_model');
+		//$branch_info = $this->branch_model->getByID($branchID);
+
+
 		$this->load->model('branch_model');
-		$branch_info = $this->branch_model->getByID($branchID);
+
+		$branch_info = $this->branch_model->get_by_id($branch);
+
+
+		//print_r($branch_info);
+		$search = $branch_info->ds_branch_code.date('Y');
+		
+		$this->db->where("pos_doc_inv_id LIKE '$search%'");
+		$this->db->order_by('pos_doc_inv_id','DESC');
+
+		$query = $this->db->get('pos_doc');
+
+		$result = $query->row();
+		//echo "<hr>";
+		//print_r($result);
+
+		//$lastInv = ;
+		$inv_no = isset($result->pos_doc_inv_id) ? substr($result->pos_doc_inv_id, 5, 4):0;
+        $inv_no += 1;
+        
+
+        $display_inv_no = $branch_info->ds_branch_code.date('Y').sprintf('%04d',$inv_no);
+
+		print_r($display_inv_no);
+
+		return $display_inv_no;
+
+
+
 	}
 	function getDocByID($id){
 		$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');

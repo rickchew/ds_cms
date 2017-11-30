@@ -55,4 +55,9 @@ class Order extends CI_Controller {
 		$data['active_menu_id'] = '91';
         $this->load->view('order/index', $data);
 	}
+    public function test(){
+        $this->load->model('doc_model');
+
+        $data= $this->doc_model->getNextInv(1);
+    }
 }

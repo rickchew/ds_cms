@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Bread crumb and right sidebar toggle -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor">Blank Page</h3>
+                    <h3 class="text-themecolor">Invoice</h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card card-body printableArea">
-                            <h3><b>TAX INVOICE</b> <span class="pull-right">#S20171234</span></h3>
+                            <h3><b>TAX INVOICE</b> <span class="pull-right">#<?php echo $docs->pos_doc_inv_id?></span></h3>
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">

@@ -71,8 +71,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="pull-right">
+                                        <?php //print_r($this->session->all_userdata()) ;?>
+                                        <?php if($this->session->userdata('outlet_id')):?>
                                         <?php echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Package', 'class="btn btn-success"'); ?>&nbsp;
                                         <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> Cash Sales', 'class="btn btn-success"'); ?>
+                                        <?php endif?>
                                         </div>
                                     </div>
                                 </div>
@@ -84,7 +87,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <th>TYPE</th>
                                                 <th>Invoice No</th>
                                                 <th>Members Name</th>
-                                                <th>INV Date</th>
+                                                <th>Date</th>
                                                 <th>Branch</th>
                                                 <th class="text-right">Total Amount</th>
                                                 <th class="text-right">Amount Paid</th>

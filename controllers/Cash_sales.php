@@ -128,6 +128,8 @@ class Cash_sales extends CI_Controller {
 
 		$data['docs'] = $this->doc_model->getDocByID($id);
 		$data['child'] = $this->doc_model->getChildByID($id);
+		$this->output->enable_profiler(true);
+		print_r($data);
 
 		$this->load->view('cash_sales/details',$data);
 	}

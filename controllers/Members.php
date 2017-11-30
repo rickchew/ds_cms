@@ -82,6 +82,7 @@ class Members extends CI_Controller
 			
 	    	);
             $data['docs_inv'] = $docs_inv;
+            $data['active_menu_id'] = '86';
     		$this->load->view('members/read',$data);
         }else {
             $this->session->set_flashdata('error_message', 'Record Not Found');

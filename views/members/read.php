@@ -152,7 +152,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <!--second tab-->
                                 <div class="tab-pane" id="profile" role="tabpanel" aria-expanded="false">
                                     <div class="card-body">
-                                        <div class="row">
+                                        <div class="row m-l-10 m-r-10">
                                             <?php //$docs_inv)?>
                                             <div class="table-responsive">
                                     <table class="table table-hover success-bordered-table color-bordered-table">
@@ -160,7 +160,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <tr>
                                                 <th>No</th>
                                                 <th>Invoice No</th>
-                                                <th>INV Date</th>
+                                                <th>Date</th>
                                                 <th>Branch</th>
                                                 <th class="text-right">Total Amount</th>
                                                 <th class="text-right">Total Paid</th>

@@ -72,7 +72,7 @@ class Doc_model extends CI_Model{
 		$branch_info = $this->branch_model->getByID($branchID);
 	}
 	function getDocByID($id){
-		$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id');
+		$this->db->join('mod_clients','mod_clients.mod_clients_id = pos_doc.pos_doc_customer_id','left');
 		$this->db->where('pos_doc_id',$id);
 
 		$query = $this->db->get('pos_doc');

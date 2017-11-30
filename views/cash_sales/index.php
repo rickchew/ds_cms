@@ -59,8 +59,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item">pages</li>
-                        <li class="breadcrumb-item active">Blank Page</li>
+                        <li class="breadcrumb-item">Order</li>
+                        <li class="breadcrumb-item active">Cash Sales</li>
                     </ol>
                 </div>
             </div>
@@ -175,7 +175,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
                                         <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID">
-                                            <option>- Cash Sales -</option>
+                                            <option value="898">- Cash Sales -</option>
 
                                             <option value="0">- ADD NEW CUSTOMER -</option>
                                             <?php foreach($customers as $customer):?>

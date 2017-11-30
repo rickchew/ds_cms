@@ -605,6 +605,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#paymentAmt").val(eval_subAmt);
             $("#paymentTotal").val(amtTotal);
 
+            $("#outStandingDisplay").html("RM "+amtTotal);
+
+            //console.log(amtTotal);
+
         }
         function methodUpdate(){
             var eval_subAmt = eval($("input[name='subAmt[]'").map(function(){return $(this).val();}).get().join("+"));

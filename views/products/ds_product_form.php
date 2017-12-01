@@ -7,6 +7,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <?php $this->load->view('includes/header')?>
     <link href="<?php echo base_url('assets/minimal/')?>css/pages/floating-label.css" rel="stylesheet">
+    <link href="<?php echo base_url('assets/plugins/select2/dist/css/select2.min.css')?>" rel="stylesheet" type="text/css" />
+    <link href="<?php echo base_url('assets/plugins/multiselect/css/multi-select.css')?>" rel="stylesheet" type="text/css" />
+    <link href="http://192.168.0.34/ds_cms/assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+          background: #398bf7;
+          color: #ffffff;
+          border-color: #398bf7; }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            float: right;
+            color: #ffffff;
+            margin-right: 0px;
+            margin-left: 4px;}
+    </style>
 </head>
 
 <body class="fix-header card-no-border fix-sidebar">
@@ -81,6 +95,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <input class="form-control" type="text" name="ds_product_price" id="ds_product_price" value="<?php echo $ds_product_price; ?>" autocomplete="off">
                                         </div>
                                     </div>
+                                    <hr>
+                                    <?php //print_r($attribute_sub_list)?>
+                                    <?php foreach($attribute_list as $attribute):?>
+                                    <div class="form-group row" id="att_display_<?php echo $attribute->ds_product_attribute_id?>" style="display: none">
+                                        <label for="example-search-input" class="col-2 col-form-label"><?php echo $attribute->ds_product_attribute_name?></label>
+                                        <div class="col-10">
+                                            <select class="select2 m-b-10 select2-multiple" style="width: 100%" multiple="multiple" data-placeholder="Choose">
+                                                <?php foreach($attribute_sub_list as $attribute_sub):?>
+                                                <?php if($attribute_sub->ds_product_attribute_parent_id == $attribute->ds_product_attribute_id):?>
+                                                <option><?php echo $attribute_sub->ds_product_attribute_sub_name?></option>
+                                                <?php endif?>
+                                                <?php endforeach?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <?php endforeach?>
+                                    
+
+
                                     <div class="form-group row m-b-0">
                                         <label for="example-search-input" class="col-2 col-form-label">&nbsp;</label>
                                         <div class="col-md-4">
@@ -95,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div class="col-md-4">
                                             <div class="form-check">
                                                 <input type="checkbox" name="ds_product_is_service" id="basic_checkbox_3" class="filled-in" <?php echo $ds_product_is_service ? 'checked':''?>>
-                                                <label for="basic_checkbox_3">IS TREAMENT</label>
+                                                <label for="basic_checkbox_3">IS SERVICE</label>
                                             </div>
                                         </div>
                                     </div>
@@ -105,6 +138,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <button type="button" class="btn btn-inverse">Cancel</button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Add Attributes</h4>
+                                &nbsp;<br>
+                                <?php //print_r($attribute_list)?>
+                                <?php foreach($attribute_list as $attribute):?>
+                                <a href="javascript:void(0)" class="btn btn-info" onclick="$('#att_display_<?php echo $attribute->ds_product_attribute_id?>').show()"><?php echo $attribute->ds_product_attribute_name?></a>
+                                <?php endforeach?>
                             </div>
                         </div>
                     </div>
@@ -135,5 +180,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url()?>/assets/plugins/sparkline/jquery.sparkline.min.js"></script>
     <!--Custom JavaScript -->
     <script src="<?php echo base_url('assets/minimal/')?>js/custom.min.js"></script>
+
+    <script src="<?php echo base_url('assets/plugins/switchery/dist/switchery.min.js')?>"></script>
+    <script src="<?php echo base_url('assets/plugins/select2/dist/js/select2.full.min.js')?>" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo base_url('assets/plugins/multiselect/js/jquery.multi-select.js')?>"></script>
+    <script src="<?php echo base_url('assets/plugins/bootstrap-select/bootstrap-select.min.js')?>" type="text/javascript"></script>
+    <script src="<?php echo base_url('assets/plugins/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js')?>"></script>
+
+    
+    <script src="<?php echo base_url('assets/plugins/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js')?>" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(".select2").select2();
+    </script>
 </body>
 </html>

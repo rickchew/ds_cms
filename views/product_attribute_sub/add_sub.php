@@ -54,6 +54,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-8">
                         <div class="card">
                             <div class="card-body">
+                                <?php if($this->session->userdata('message')):?>
+                                <div class="alert alert-success"><?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?> </div>&nbsp;<br>&nbsp;<br>
+                                <?php endif?>
                                 <h4 class="card-title"><!--Responsive Table --></h4>
                                 <h6 class="card-subtitle"><!--Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive </code>--></h6>
                                                                 <div class="row">
@@ -77,12 +80,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                               </div>
                                               <div class="modal-body">
-                                                <form action="<?php echo site_url('product_attribute_sub/create_action')?>">
-
-                                                    
+                                                <form id="formSubmit" action="<?php echo site_url('product_attribute_sub/create_action')?>" method="post">
+                                                    <div class="form-body">
+                                                        <div class="row p-t-20">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="control-label">Name</label>
+                                                                    <input type="hidden" id="ds_product_attribute_parent_id" class="form-control" name="ds_product_attribute_parent_id" value="<?php echo $info->ds_product_attribute_id?>">
+                                                                    <input type="text" id="firstName" class="form-control" name="ds_product_attribute_sub_name" required="" autocomplete="off">
+                                                                    <!--<small class="form-control-feedback"> This is inline help </small> </div>-->
+                                                                    <?php //print_r($info)?>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                
+                                                    </div>
                                                 </form>
                                               </div>
                                               <div class="modal-footer">
+                                                <button type="button" class="btn btn-success" onclick="$('#formSubmit').submit()">Submit</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                               </div>
                                             </div>

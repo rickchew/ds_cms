@@ -36,7 +36,7 @@ class Product_attribute extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-		$data['active_menu_id'] = '0';
+		$data['active_menu_id'] = '82';
         $this->load->view('product_attribute/ds_product_attribute_list', $data);
     }
     public function read($id) 

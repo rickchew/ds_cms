@@ -11,6 +11,8 @@ class Products extends CI_Controller{
     function __construct(){
         parent::__construct();
         $this->load->model('Products_model');
+        $this->load->model('product_attribute_model');
+        $this->load->model('product_attribute_sub_model');
         $this->load->library('form_validation');
 
         //$data['active_menu_id'] = $activeMenu;
@@ -92,6 +94,8 @@ class Products extends CI_Controller{
 	    'ds_product_modified_by' => set_value('ds_product_modified_by'),
         'ds_product_is_service' => set_value('ds_product_is_service'),
         'category_list' =>  $this->product_category_model->get_all(),
+        'attribute_list' => $this->product_attribute_model->get_all(),
+        'attribute_sub_list' => $this->product_attribute_sub_model->get_all(),
 	);
         $data['active_menu_id'] = '82';
         $this->load->view('products/ds_product_form', $data);

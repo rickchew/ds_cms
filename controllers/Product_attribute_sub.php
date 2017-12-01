@@ -40,7 +40,7 @@ class Product_attribute_sub extends CI_Controller
             'total_rows' => $config['total_rows'],
             'start' => $start,
         );
-		$data['active_menu_id'] = '0';
+		$data['active_menu_id'] = '82';
         $this->load->view('product_attribute_sub/ds_product_attribute_sub_list', $data);
     }
 
@@ -89,7 +89,8 @@ class Product_attribute_sub extends CI_Controller
 
             $this->Product_attribute_sub_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('product_attribute_sub'));
+            //redirect(site_url('product_attribute_sub'));
+            redirect(site_url('product_attribute_sub/add_sub/'.$this->input->post('ds_product_attribute_parent_id')));
         }
     }
     
@@ -128,7 +129,7 @@ class Product_attribute_sub extends CI_Controller
 
             $this->Product_attribute_sub_model->update($this->input->post('ds_product_attribute_sub_id', TRUE), $data);
             $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('product_attribute_sub'));
+            redirect(site_url('product_attribute_sub/add_sub/'.$this->input->post('ds_product_attribute_parent_id')));
         }
     }
     
@@ -150,7 +151,7 @@ class Product_attribute_sub extends CI_Controller
     {
 	$this->form_validation->set_rules('ds_product_attribute_parent_id', 'ds product attribute parent id', 'trim|required');
 	$this->form_validation->set_rules('ds_product_attribute_sub_name', 'ds product attribute sub name', 'trim|required');
-	$this->form_validation->set_rules('ds_product_attribute_sub_enable', 'ds product attribute sub enable', 'trim|required');
+	$this->form_validation->set_rules('ds_product_attribute_sub_enable', 'ds product attribute sub enable', 'trim');
 
 	$this->form_validation->set_rules('ds_product_attribute_sub_id', 'ds_product_attribute_sub_id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

@@ -74,13 +74,28 @@ class Doc_model extends CI_Model{
 		//$branch_info = $this->branch_model->getByID($branchID);
 
 
+
 		$this->load->model('branch_model');
 
 		$branch_info = $this->branch_model->get_by_id($branch);
 
 
 		//print_r($branch_info);
-		$search = $branch_info->ds_branch_code.date('Y');
+
+		switch ($this->input->post('docType')) {
+		    case 1:
+		        $search = $branch_info->ds_branch_code.date('Y'); // GET NEXT INVOICE
+		        break;
+		    case 2:
+		        $search = 'OD'.$branch_info->ds_branch_code.date('Y'); // GET NEXT ORDER
+		        break;
+		    case 3:
+		        //code to be executed if n=label3;
+		        break;
+		    default:
+		        //code to be executed if n is different from all labels;
+		}
+		
 		
 		$this->db->where("pos_doc_inv_id LIKE '$search%'");
 		$this->db->order_by('pos_doc_inv_id','DESC');
@@ -92,13 +107,17 @@ class Doc_model extends CI_Model{
 		//print_r($result);
 
 		//$lastInv = ;
-		$inv_no = isset($result->pos_doc_inv_id) ? substr($result->pos_doc_inv_id, 5, 4):0;
+		$inv_no = isset($result->pos_doc_inv_id) ? substr($result->pos_doc_inv_id, -4):0;
+		
         $inv_no += 1;
+
+        //echo "This>>>>".sprintf('%04d',$inv_no);
         
 
-        $display_inv_no = $branch_info->ds_branch_code.date('Y').sprintf('%04d',$inv_no);
+        $display_inv_no = $search.sprintf('%04d',$inv_no);
 
-		print_r($display_inv_no);
+		//print_r($display_inv_no);
+		//$this->output->enable_profiler(true);
 
 		return $display_inv_no;
 

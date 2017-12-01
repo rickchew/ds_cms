@@ -281,7 +281,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-12">
                                     &nbsp;<br>
-                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">ADD ORDER</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">GENERATE ORDER</button>
                                     </div>
                                     <!--</form>-->
                                 </div>

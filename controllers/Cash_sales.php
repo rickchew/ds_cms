@@ -8,7 +8,8 @@ class Cash_sales extends CI_Controller {
 		$this->load->model('members_model');
 
 
-		$data['product'] = $this->products_model->get_all();
+		$data['product'] = $this->products_model->get_all_non_service();
+		$data['service'] = $this->products_model->get_all_is_service();
 		$data['customers'] = $this->members_model->get_all();
 
 
@@ -23,7 +24,14 @@ class Cash_sales extends CI_Controller {
 		$paymentJson = $this->input->post('hiddenMethod');
 		$paymentJson = json_decode($paymentJson);
 
-		//print_r($this->input->post());
+		$orderJson = $this->input->post('hiddenOrder');
+		$orderJson = json_decode($orderJson);
+		//$orderAmt = $orderJson[0];
+
+		//print_r($orderJson[0]);
+		//$key = array_search(array('name'), $orderJson);
+		//print_r($orderJson[1]->value);
+		//print_r($key);
 		/*----------------------------
 
 				MAIN DOC SAVE
@@ -36,7 +44,12 @@ class Cash_sales extends CI_Controller {
 		$mainArr['pos_doc_payment_total'] = $this->input->post('paymentTotal');
 		$mainArr['pos_doc_customer_id'] = $this->input->post('membersID');
 		$mainArr['pos_doc_branch_id'] = $this->input->post('outletID');
-		$mainArr['pos_doc_type_id'] = 1 ; //INVOICE
+		$mainArr['pos_doc_type_id'] = $this->input->post('docType');
+		$mainArr['pos_doc_is_package'] =  $this->input->post('docType') == 2 ? 1:null;
+		$mainArr['pos_doc_quote_price'] = isset($orderJson[0]->value) ? $orderJson[0]->value:null;
+		$mainArr['pos_doc_pv_given'] = isset($orderJson[1]->value) ? $orderJson[1]->value:null;
+		$mainArr['pos_doc_note'] =  $this->input->post('salesNote');
+		//$mainArr['pos_doc_quote_price'] = 
 
 		$mainID = $this->doc_model->save_main($mainArr);
 		/*
@@ -86,43 +99,49 @@ class Cash_sales extends CI_Controller {
 		$tmpArr = array();
 		$strReplace = null;
 		$x = 0;
-
-		foreach($paymentJson as $val){
-			
-			if($val->name=="methodID[]"){
-				$strReplace = "pos_payment_method_id";
-			}elseif($val->name=="methodRemark[]"){
-				$strReplace = "pos_payment_remark";
-			}elseif($val->name=="methodAmt[]"){
-				$strReplace = "pos_payment_amt";
-			}else{
-				$strReplace = null;
-			}
-
-
-			$tmpArr[$strReplace] = $val->value;
-
-			$x++;
-			if($x==3){
-				$tmpArr['pos_payment_doc_id'] = $mainID; // SETTING PARENT DOC ID HERE
-				if($tmpArr['pos_payment_amt']>0){
-					//IF PAYMENT METHOD GOT VALUE THEN SAVE
-					array_push($paymentArr,$tmpArr);
+		if($paymentJson){
+			foreach($paymentJson as $val){
+				//Change input name to data table name
+				if($val->name=="methodID[]"){
+					$strReplace = "pos_payment_method_id";
+				}elseif($val->name=="methodRemark[]"){
+					$strReplace = "pos_payment_remark";
+				}elseif($val->name=="methodAmt[]"){
+					$strReplace = "pos_payment_amt";
+				}else{
+					$strReplace = null;
 				}
-				
-				$x=0;
-				$tmpArr = array();
-				//echo "<hr>";
+
+
+				$tmpArr[$strReplace] = $val->value;
+
+				$x++;
+				if($x==3){
+					$tmpArr['pos_payment_doc_id'] = $mainID; // SETTING PARENT DOC ID HERE
+					if($tmpArr['pos_payment_amt']>0){
+						//IF PAYMENT METHOD GOT VALUE THEN SAVE
+						array_push($paymentArr,$tmpArr);
+					}
+					
+					$x=0;
+					$tmpArr = array();
+					//echo "<hr>";
+				}
 			}
 		}
+		
 		/*---------------------------
 
 		PAYMENT ARRAY REARRAGE END ->>> $paymentArr is ready to batch insert
 
 		----------------------------*/
-		$this->payment_model->batch_save($paymentArr);
-
-		redirect('cash_sales/details/'.$mainID);
+		if($this->input->post('docType') == 2){ //IF THIS IS ORDER DONT SAVE PAYMENT
+			redirect('order/order_details/'.$mainID);
+		}else{
+			$this->payment_model->batch_save($paymentArr);
+			redirect('cash_sales/details/'.$mainID);
+		}
+		
 		
 	}
 	function details($id){

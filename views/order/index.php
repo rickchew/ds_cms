@@ -69,15 +69,28 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                   <button class="btn btn-success" type="submit">Search</button>
                                                 </span>
                                             </div>
+                                            &nbsp; &nbsp; &nbsp; <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-success">
+                                                <input type="radio" name="options" id="option1" autocomplete="off" checked> ALL
+                                            </label>
+                                            <?php foreach($branch_list as $branch):?>
+                                            <label class="btn btn-success">
+                                                <input type="radio" name="options" autocomplete="off" value="<?php echo $branch->ds_branch_id?>"> <?php echo $branch->ds_branch_name?>
+                                            </label>
+                                            <?php endforeach?>
+                                            </div>
                                         </form>
+
                                         &nbsp;<br>
+
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="pull-right">
-                                        <?php //print_r($this->session->all_userdata()) ;?>
+                                        <?php //print_r($branch_list)?>
+                                            
                                         <?php if($this->session->userdata('outlet_id')):?>
                                         <?php //echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Order', 'class="btn btn-success"'); ?>&nbsp;
-                                        <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> Cash Sales', 'class="btn btn-success"'); ?>
+                                        <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> &nbsp;Add Sales', 'class="btn btn-success"'); ?>
                                         <?php endif?>
                                         </div>
                                     </div>
@@ -94,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <th>Branch</th>
                                                 <th class="text-right">Total Amount</th>
                                                 <th class="text-right">Amount Paid</th>
-                                                <th>Order Amount</th>
+                                                <th class="text-right">Order Amount</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -110,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <td><?php echo $doc->ds_branch_name ?></td>
                                                 <td class="text-right"><?php echo $doc->pos_doc_is_cancel ? "":$doc->pos_doc_payment_wo_gst ?></td>
                                                 <td class="text-right"><?php echo $doc->pos_doc_is_cancel ? "<span class='badge badge-danger text-center'>CANCELLED</span>":$doc->pos_doc_payment_total ?></td>
-                                                <td><?php echo $doc->pos_doc_quote_price ?></td>
+                                                <td class="text-right"><?php echo $doc->pos_doc_quote_price ?></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
                                                       <?php

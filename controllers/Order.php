@@ -21,6 +21,7 @@ class Order extends CI_Controller {
 	function __construct(){
         parent::__construct();
         $this->load->model('Doc_model');
+        $this->load->model('branch_model');
         $this->load->library('form_validation');
     }
 	public function index(){
@@ -50,14 +51,25 @@ class Order extends CI_Controller {
             'pagination' => $this->pagination->create_links(),
             'total_rows' => $config['total_rows'],
             'start' => $start,
+            'branch_list' => $this->branch_model->get_all(),
         );
 
 		$data['active_menu_id'] = '91';
         $this->load->view('order/index', $data);
 	}
+    public function order_details($id){
+        $this->load->model('doc_model');
+
+        $data['docs'] = $this->doc_model->getDocByID($id);
+        $data['child'] = $this->doc_model->getChildByID($id);
+
+        //print_r($data);
+        $this->load->view('order/order_details',$data);
+    }
+    /*
     public function test(){
         $this->load->model('doc_model');
 
         $data= $this->doc_model->getNextInv(1);
-    }
+    }*/
 }

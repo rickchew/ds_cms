@@ -78,6 +78,73 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 //print_r($customers);
                             ?>
                         </div>
+                        <h3>Treatment</h3>
+                        <hr>
+
+
+
+                        <div class="row display-flex">
+                            <?php foreach($service as $pro):?>
+                            
+                            <div class="col-lg-3">
+                                <a href="javascript:void(0)" onclick='addCart(<?php echo $pro->ds_product_id?>);'>
+                                <div class="card card-body card-body-shadow" style="color:#333">
+                                    <div class=""><strong><?php echo $pro->ds_product_name?></strong><?php ?></div>
+
+                                </div>
+                                </a>
+
+                                <!--TEMPLATES-->
+                                <div style="display: none">
+                                    <div id="pro_<?php echo $pro->ds_product_id?>" class="card product_well" style="margin-bottom: 0px">
+                                        <div class="card-header" role="tab" id="heading<?php echo $pro->ds_product_id?>">
+                                            <h5 class="mb-0">
+
+                                        <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
+                                          <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;<?php echo $pro->ds_product_name?></h5>
+                                        <span class="priceDisplay">RM&nbsp;<?php echo $pro->ds_product_price?></span>
+                                    </div>
+
+                                    <small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
+                                        </a>
+                                      </h5> </div>
+                                        <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Quantity</label>
+                                                            <input type="hidden" class="productID" value="<?php echo $pro->ds_product_id?>">
+                                                            <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)"
+                                                             value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Price</label>
+                                                            <input type="hidden" class="form-control amtInput" value="<?php echo $pro->ds_product_price?>">
+                                                            <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="<?php echo $pro->ds_product_price?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Taken</label>
+                                                            <input type="number" class="form-control takenInput" value="" min="0">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--END TEMPLATES-->
+                            <?php endforeach?>
+                        </div>
+
+                        <h3>Products</h3>
+                        <hr>
                         <!--***************************
 
 
@@ -173,7 +240,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             
                             <div class="card-body">
                                 <div class="row">
-                                    <!--<form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>">-->
                                     <div class="col-12">
                                         <select class="form-control custom-select select2" id="customer_select" onchange="checkCustomer()" name="membersID" style="width: 100%; height:36px;">
                                             <option value="898">- Cash Sales -</option>
@@ -211,9 +277,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                         <!-- HIDDEN SUBMIT-->
                                         <input type="hidden" id="hiddenMethod" name="hiddenMethod" value="">
+                                        <input type="hidden" id="hiddenOrder" name="hiddenOrder" value="">
                                         <input type="hidden" id="paymentAmt" name="paymentAmt">
                                         <input type="hidden" id="paymentGst" name="paymentGst">
                                         <input type="hidden" id="paymentTotal" name="paymentTotal">
+                                        <input type="hidden" id="docType" name="docType">
                                         <input type="hidden" name="docDate" value="<?php echo date('Y-m-d')?>">
                                         <input type="hidden" value="<?php echo $this->session->userdata('outlet_id')?>" name="outletID">
 
@@ -221,7 +289,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="col-12">
                                     &nbsp;<br>
-                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal">PAY</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal" onclick="changeDocType(1)">PAY</button>
+                                    <button type="button" class="btn btn-block btn-lg btn-success" data-toggle="modal" data-target="#generateOrder" onclick="changeDocType(2)">GENERATE ORDER</button>
                                     <button type="button" class="btn btn-block btn-lg btn-default">HOLD BILL</button>
                                     </div>
                                     <!--</form>-->
@@ -236,6 +305,41 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <!-- footer -->
                 <?php $this->load->view('includes/footer')?>
                 <!-- End footer -->
+            </div>
+            <div id="generateOrder" class="modal fade" role="dialog">
+              <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">Order Form</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="form" action="" method="post" id="orderForm">
+                        <div class="form-group m-t-20 m-l-10 m-r-10 row">
+                            <label for="example-text-input" class="col-4 col-form-label">Package Amount</label>
+                            <div class="input-group col-4">
+                                <div class="input-group-addon">RM</div>
+                                <input type="text" class="form-control" name="packageAmt">
+                            </div>
+                        </div>
+                        <div class="form-group m-t-20 m-l-10 m-r-10 row">
+                            <label for="example-text-input" class="col-4 col-form-label">Product Voucher</label>
+                            <div class="input-group col-4">
+                                <div class="input-group-addon">RM</div>
+                                <input type="text" class="form-control" name="packagePV">
+                            </div>
+                        </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-success waves-effect text-left" onclick="genOrder();">Submit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+
+              </div>
             </div>
             <!-- End Container fluid  -->
             <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -309,7 +413,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success waves-effect text-left" data-dismiss="modal" onclick="$('#custForm').submit()">Submit</button>
+                        <button type="button" class="btn btn-success waves-effect text-left" onclick="$('#custForm').submit()">Submit</button>
                         <button type="button" class="btn btn-inverse waves-effect text-left" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -587,6 +691,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $("#amtInput_"+running).val(totalPrice);
 
             var subAmt = $("input[name='subAmt[]'").map(function(){return $(this).val();}).get();
+            //console.log(subAmt);
             var totalItem = $("input[name='subItem[]'").map(function(){return $(this).val();}).get();
 
             var eval_subAmt = eval(subAmt.join("+"));
@@ -654,6 +759,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }else{
                 $("#methodFormBtn").hide();
             } //methodFormBtn
+        }
+        function changeDocType(type){
+            $("#docType").val(type);
+        }
+        function genOrder(){
+            $("#hiddenOrder").val(JSON.stringify($("#orderForm").serializeArray()));
+            $("#cashierForm").submit();
+            //$("input[name='subAmt[]'").attr('value',0);
+
         }
         function generateInv(){
             //console.log(JSON.stringify($("#methodFormID").serializeArray()));

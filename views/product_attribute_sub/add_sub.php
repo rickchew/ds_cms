@@ -38,13 +38,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Bread crumb and right sidebar toggle -->
             <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
-                    <h3 class="text-themecolor">Product Attributes</h3>
+                    <h3 class="text-themecolor">Attribute : <?php echo $info->ds_product_attribute_name?></h3>
                 </div>
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item">Product</li>
-                        <li class="breadcrumb-item active">Product Attribute</li>
+                        <li class="breadcrumb-item">pages</li>
+                        <li class="breadcrumb-item active">Blank Page</li>
                     </ol>
                 </div>
             </div>
@@ -56,38 +56,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="card-body">
                                 <h4 class="card-title"><!--Responsive Table --></h4>
                                 <h6 class="card-subtitle"><!--Create responsive tables by wrapping any <code>.table</code> in <code>.table-responsive </code>--></h6>
-                                <?php if($this->session->userdata('message')):?>
-                                <div class="alert alert-success"><?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?> </div>&nbsp;<br>&nbsp;<br>
-                                <?php endif?>
-                                <div class="row">
+                                                                <div class="row">
                                     <div class="col-md-6">
-                                        <form action="<?php echo site_url('products/index'); ?>" class="form-inline" method="get">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" name="q" value="<?php echo $q; ?>" autocomplete="off" spellcheck="false">
-                                                <span class="input-group-btn">
-                                                    <?php 
-                                                        if ($q <> '')
-                                                        {
-                                                            ?>
-                                                            <a href="<?php echo site_url('products/'); ?>" class="btn btn-info"><i class="fa fa-close"></i></a>
-                                                            <?php
-                                                        }
-                                                    ?>
-                                                  <button class="btn btn-success" type="submit">Search</button>
-                                                </span>
-                                            </div>
-                                        </form>
-                                        &nbsp;<br>
+                                        &nbsp;
                                     </div>
                                     <div class="col-md-6 ">
                                         <div class="pull-right">
-                                        <!--
-                                        <?php echo anchor(site_url('products/create'),'<i class="mdi-library-plus mdi"></i> New Product', 'class="btn btn-success"'); ?>
-                                        -->
+                                        
+                                        <a href="javascript:void(0)" class="btn btn-success" data-toggle="modal" data-target="#myModal"><i class="mdi-library-plus mdi"></i> New Sub-Attribute</a> &nbsp;<br>&nbsp;<br>        
                                         </div>
+                                        <!-- Modal -->
+                                        <div id="myModal" class="modal fade" role="dialog">
+                                          <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                              <div class="modal-header">
+                                                
+                                                <h4 class="modal-title">Add</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <form action="<?php echo site_url('product_attribute_sub/create_action')?>">
+
+                                                    
+                                                </form>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                              </div>
+                                            </div>
+
+                                          </div>
+                                        </div>
+
                                     </div>
                                 </div>
-                            
+                                <?php //print_r($sub)?>
                                 <div class="table-responsive">
                                     <table class="table table-hover success-bordered-table color-bordered-table">
                                         <thead>
@@ -99,44 +104,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             </tr>
                                         </thead>
                                         <tbody style="font-weight: 400;">
-                                            <?php //print_r($product_attribute_data)?>
-                                            <?php foreach($product_attribute_data as $products):?>
+                                        <?php $start=0?>
+                                        <?php foreach($sub as $val):?>
                                             <tr>
-                                                <td width="80px"><?php echo ++$start ?></td>
-                                                <td><?php echo $products->ds_product_attribute_name ?></td>
-                                                <td><?php echo $products->ds_product_attribute_enable ? '':'<span class="badge badge-danger">DISABLED</span>' ?></td>
+                                                <td width="80px"><?php echo ++$start?></td>
+                                                <td><?php echo $val->ds_product_attribute_sub_name?></td>
+                                                <td></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
-                                                      <?php
-                                                      //echo anchor(site_url('products/read/'.$products->ds_product_attribute_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
-                                                      echo anchor(site_url('product_attribute_sub/add_sub/'.$products->ds_product_attribute_id),' <i class="mdi mdi-settings text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
-                                                      ?>
-                                                    </div>
+                                                      <a href="#" data-toggle="tooltip" data-original-title="" title=""> <i class="mdi mdi-settings text-inverse m-r-10"></i></a>
+                                                      </div>
                                                 </td>
                                             </tr>
-                                            <?php endforeach;?>
+                                        <?php endforeach?>                             
                                         </tbody>
                                     </table>
 
                                 </div>
                                 &nbsp;<br>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <a href="#" class="btn btn-success">Total Record : <?php echo $total_rows ?></a>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="pull-right">
-                                            <?php echo $pagination ?>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="card">
                             <div class="card-body">
-                                <form action="<?php echo $action; ?>" method="post">
+                                <form action="<?php echo site_url('product_attribute/update_action')?>" method="post">
                                     <div class="form-body">
                                         <h3 class="card-title">Attribute Info</h3>
                                         <hr>
@@ -144,21 +136,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="control-label">Attribute Name</label>
-                                                    <input type="text" id="firstName" class="form-control" name="ds_product_attribute_name" id="ds_product_attribute_name" required="">
+                                                    <input type="text" id="firstName" class="form-control" name="ds_product_attribute_name" required="" value="<?php echo $info->ds_product_attribute_name?>">
                                                     <!--<small class="form-control-feedback"> This is inline help </small> </div>-->
+                                                    <?php //print_r($info)?>
                                             </div>
                                         </div>
                                         <!--/row-->
                                             <div class="col-md-12">
                                                 <div class="form-group">
-                                                    <input type="checkbox" name="ds_product_enable" id="basic_checkbox_2" class="filled-in" name="ds_product_attribute_enable" id="ds_product_attribute_enable">
+                                                    <input type="checkbox" name="ds_product_enable" id="basic_checkbox_2" class="filled-in" <?php echo $info->ds_product_attribute_enable ? 'checked':''?>>
                                                 <label for="basic_checkbox_2">Enabled</label>
                                                     <!--<small class="form-control-feedback"> This is inline help </small> </div>-->
                                                 </div>
                                             </div>  
                                         </div>
                                     <div class="form-actions">
-                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Add Attribute</button>
+                                        <button type="submit" class="btn btn-success"> Update</button>
+                                    </div>
+                                
                                     </div>
                                 </form>
                             </div>

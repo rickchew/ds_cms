@@ -135,6 +135,8 @@ class Product_attribute extends CI_Controller
 	$this->form_validation->set_rules('ds_product_attribute_id', 'ds_product_attribute_id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
+
+    
 }
 /* End of file Product_attribute.php */
 /* Location: ./application/controllers/Product_attribute.php */

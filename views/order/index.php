@@ -53,6 +53,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <?php if($this->session->userdata('message')):?>
+                                <div class="alert alert-success"><?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?> </div>&nbsp;<br>&nbsp;<br>
+                                <?php endif?>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <form action="<?php echo site_url('order/index'); ?>" class="form-inline" method="get">
@@ -73,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <div class="pull-right">
                                         <?php //print_r($this->session->all_userdata()) ;?>
                                         <?php if($this->session->userdata('outlet_id')):?>
-                                        <?php echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Package', 'class="btn btn-success"'); ?>&nbsp;
+                                        <?php //echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Order', 'class="btn btn-success"'); ?>&nbsp;
                                         <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> Cash Sales', 'class="btn btn-success"'); ?>
                                         <?php endif?>
                                         </div>
@@ -101,18 +104,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <tr>
                                                 <td width="80px"><?php echo ++$start ?></td>
                                                 <td><?php echo $doc->pos_doc_type_name ?></td>
-                                                <td><?php echo $doc->pos_doc_inv_id ?></td>
+                                                <td><?php echo $doc->pos_doc_inv_id?></td>
                                                 <td><?php echo $doc->mod_clients_fullname ?></td>
                                                 <td><?php echo $doc->pos_doc_date ?></td>
                                                 <td><?php echo $doc->ds_branch_name ?></td>
-                                                <td class="text-right"><?php echo $doc->pos_doc_payment_wo_gst ?></td>
-                                                <td class="text-right"><?php echo $doc->pos_doc_payment_total ?></td>
+                                                <td class="text-right"><?php echo $doc->pos_doc_is_cancel ? "":$doc->pos_doc_payment_wo_gst ?></td>
+                                                <td class="text-right"><?php echo $doc->pos_doc_is_cancel ? "<span class='badge badge-danger text-center'>CANCELLED</span>":$doc->pos_doc_payment_total ?></td>
                                                 <td><?php echo $doc->pos_doc_quote_price ?></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
                                                       <?php
                                                       echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
-
+                                                      echo $doc->pos_doc_date >= date('Y-m-d') ? anchor(site_url('cash_sales/cancel/'.$doc->pos_doc_id),'<i class="mdi mdi-content-cut text-inverse m-r-10"></i>&nbsp;','onclick="javasciprt: return confirm(\'Cancel , Are You Sure ?\')"') : ''; 
+                                                      //echo $doc->pos_doc_date >= date('Y-m-d') ? anchor(site_url('cash_sales/cancel/'.$doc->pos_doc_id),'<i class="mdi mdi-content-cut text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'):'';
                                                       //echo $doc->pos_doc_inv_id == 1 ? '':anchor(site_url('doc/update/'.$doc->pos_doc_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
                                                       
                                                       ?>

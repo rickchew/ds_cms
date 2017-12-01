@@ -122,6 +122,24 @@ class Doc_model extends CI_Model{
 
 		return $query->result();
 	}
+	function cancel($id){
+		$data['pos_doc_is_cancel'] = 1;
+		$data['pos_doc_payment_wo_gst'] = 0;
+		$data['pos_doc_payment_gst'] = 0;
+		$data['pos_doc_payment_total'] = 0;
+
+		$this->cancel_delete_child($id);
+
+		$this->db->where($this->id, $id);
+        $this->db->update($this->table, $data);
+
+
+	}
+	function cancel_delete_child($doc_id){
+
+        $this->db->where($this->id, $doc_id);
+        $this->db->delete('pos_doc_child');
+	}
    
 }
 

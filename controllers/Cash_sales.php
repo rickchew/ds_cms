@@ -135,4 +135,11 @@ class Cash_sales extends CI_Controller {
 
 		$this->load->view('cash_sales/details',$data);
 	}
+	function cancel($id){
+		$this->load->model('doc_model');
+
+		$this->doc_model->cancel($id);
+		$this->session->set_flashdata('message', 'Record Cancelled!');
+		redirect('order');
+	}
 }

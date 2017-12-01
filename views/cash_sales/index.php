@@ -199,7 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <a href="javascript:void(0)" onclick="$('#salesNoteID').show();(this).hide()"><small>Add Sales Note</small></a>
                                         <div style="display: none" id="salesNoteID">
                                         <hr>
-                                        <textarea class="form-control" placeholder="Add Sales Note" name="salesNote" ></textarea>
+                                        <textarea class="form-control" placeholder="Add Sales Note" name="salesNote" rows="6"></textarea>
                                         </div>
                                         <hr>
                                         <div>Sub-total <span class="pull-right" style="font-weight: 500" id="subtotalDisplay">RM 0.00</span></div>

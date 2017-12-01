@@ -131,7 +131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <div class="btn-group">
                                                       <?php
                                                       echo anchor(site_url('members/read/'.$members->mod_clients_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
-                                                      echo anchor(site_url('members/update/'.$members->mod_clients_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
+                                                      //echo anchor(site_url('members/update/'.$members->mod_clients_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
                                                       //echo anchor(site_url('members/delete/'.$members->mod_clients_id),'Delete','onclick="javasciprt: return confirm(\'Are You Sure ?\')" class="btn btn-primary"'); 
                                                       
                                                       ?>

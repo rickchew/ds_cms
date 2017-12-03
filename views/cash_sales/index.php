@@ -585,7 +585,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-md-12">
                         &nbsp;<br>&nbsp;<br>
                         <div>
-                            <strong>Balance </strong>
+                            <strong>Customer Changes </strong>
                             <span class="pull-right" style="font-weight: 500;font-size: 25px" id="outStandingDisplay">RM 0.00</span> 
                         </div>
                     </div>
@@ -667,7 +667,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             //  .map(function(){return $(this).val();}).get();
             //var 
             singleUpdate(null,running_number);
-            methodUpdate();
+            //methodUpdate();
             
         }
         function singleUpdate(para,run=null){

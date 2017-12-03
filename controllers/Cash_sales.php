@@ -19,6 +19,7 @@ class Cash_sales extends CI_Controller {
 		$this->load->view('cash_sales/index',$data);
 	}
 	public function create_action(){
+		$this->output->enable_profiler(true);
 		$this->load->model('payment_model');
 		$this->load->model('doc_model');
 		$paymentJson = $this->input->post('hiddenMethod');
@@ -39,16 +40,17 @@ class Cash_sales extends CI_Controller {
 		------------------------------*/
 		$mainArr['pos_doc_date'] = date('Y-m-d H:i:s');
 		$mainArr['pos_doc_date_created'] = date('Y-m-d H:i:s');
-		$mainArr['pos_doc_payment_wo_gst'] = $this->input->post('paymentAmt');
-		$mainArr['pos_doc_payment_gst'] = $this->input->post('paymentGst');
-		$mainArr['pos_doc_payment_total'] = $this->input->post('paymentTotal');
+		$mainArr['pos_doc_payment_wo_gst'] = $this->input->post('docType') == 2 ? 0:$this->input->post('paymentAmt');
+		$mainArr['pos_doc_payment_gst'] = $this->input->post('docType') == 2 ? 0:$this->input->post('paymentGst');
+		$mainArr['pos_doc_payment_total'] = $this->input->post('docType') == 2 ? 0:$this->input->post('paymentTotal');
 		$mainArr['pos_doc_customer_id'] = $this->input->post('membersID');
 		$mainArr['pos_doc_branch_id'] = $this->input->post('outletID');
 		$mainArr['pos_doc_type_id'] = $this->input->post('docType');
 		$mainArr['pos_doc_is_package'] =  $this->input->post('docType') == 2 ? 1:null;
-		$mainArr['pos_doc_quote_price'] = isset($orderJson[0]->value) ? $orderJson[0]->value:null;
-		$mainArr['pos_doc_pv_given'] = isset($orderJson[1]->value) ? $orderJson[1]->value:null;
+		$mainArr['pos_doc_quote_price'] = isset($orderJson[0]->value) ? $orderJson[0]->value:0;
+		$mainArr['pos_doc_pv_given'] = isset($orderJson[1]->value) ? $orderJson[1]->value:0;
 		$mainArr['pos_doc_note'] =  $this->input->post('salesNote');
+		$mainArr['pos_doc_order_id'] = $this->input->post('orderID') ? $this->input->post('orderID'):null;
 		//$mainArr['pos_doc_quote_price'] = 
 
 		$mainID = $this->doc_model->save_main($mainArr);
@@ -77,10 +79,12 @@ class Cash_sales extends CI_Controller {
 			$tmpArr = array(
 				'pos_doc_id' => $mainID, //Parent DOC Here
 				'pos_doc_child_product_qty' => $this->input->post('subItem')[$i], 
-				'pos_doc_child_product_price' => $this->input->post('subAmt')[$i],
-				'pos_doc_child_product_taken' => $this->input->post('subTaken')[$i],
+				'pos_doc_child_product_total_price' => $this->input->post('subAmt')[$i],
+				'pos_doc_child_product_taken' => $this->input->post('docType') == 2 ? 0:$this->input->post('subTaken')[$i], //ZERO taken if order
 				'pos_doc_child_product_price' => $this->input->post('subPrice')[$i],
 				'pos_doc_child_product_id' => $this->input->post('productID')[$i],
+				//'pos_doc_child_product_total_price' =>
+
 			);
 
 			array_push($itemArr,$tmpArr);

@@ -159,7 +159,36 @@ class Doc_model extends CI_Model{
         $this->db->where($this->id, $doc_id);
         $this->db->delete('pos_doc_child');
 	}
-   
+	function batch_update_child($doc_id,$data){
+		$this->db->where('pos_doc_id',$doc_id);
+		/*
+		$data = array(
+		   array(
+		      'pos_doc_child_id' => '220' ,
+		      'pos_doc_child_product_price' => '111' ,
+		      //'date' => 'My date 2'
+		   ),
+		   array(
+		      'pos_doc_child_id' => '219' ,
+		      'pos_doc_child_product_price' => '222' ,
+		      //'date' => 'Another date 2'
+		   )
+		);*/
+		$this->db->update_batch('pos_doc_child', $data, 'pos_doc_child_id'); 
+		$this->update_main_by_id($doc_id);
+	}
+   	function update_main_by_id($order_id){
+   		$this->db->where('pos_doc_id',$order_id);
+   		$data['pos_doc_order_saved'] = 1;
+
+   		$this->db->update('pos_doc',$data);
+   	}
+   	function getInv($order_id){
+   		$this->db->where('pos_doc_order_id',$order_id);
+   		$query = $this->db->get('pos_doc');
+
+   		return $query->result();
+   	}
 }
 
 /* End of file Members_model.php */

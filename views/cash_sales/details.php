@@ -106,8 +106,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <td class="text-center"><?php echo $i?></td>
                                                     <td><?php echo $cv->ds_product_name?></td>
                                                     <td class="text-right"> <?php echo $cv->pos_doc_child_product_qty ?> </td>
-                                                    <td class="text-right"> <?php echo $cv->ds_product_price ?> </td>
-                                                    <td class="text-right"> <?php echo sprintf("%.02f",$cv->pos_doc_child_product_qty * $cv->ds_product_price) ?> </td>
+                                                    <td class="text-right"> <?php echo $cv->pos_doc_child_product_price ?> </td>
+                                                    <td class="text-right"> <?php echo $cv->pos_doc_child_product_total_price ?> </td>
                                                 </tr>
                                             <?php endforeach?>
                                             </tbody>

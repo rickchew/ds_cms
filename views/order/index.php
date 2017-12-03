@@ -127,12 +127,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
                                                       <?php
-                                                      echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+                                                      if($doc->pos_doc_type_id==1){
+                                                        echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+                                                    }else{
+                                                        echo anchor(site_url('order/order_details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+                                                    }
+                                                      
                                                       echo $doc->pos_doc_date >= date('Y-m-d') ? anchor(site_url('cash_sales/cancel/'.$doc->pos_doc_id),'<i class="mdi mdi-content-cut text-inverse m-r-10"></i>&nbsp;','onclick="javasciprt: return confirm(\'Cancel , Are You Sure ?\')"') : ''; 
                                                       //echo $doc->pos_doc_date >= date('Y-m-d') ? anchor(site_url('cash_sales/cancel/'.$doc->pos_doc_id),'<i class="mdi mdi-content-cut text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'):'';
                                                       //echo $doc->pos_doc_inv_id == 1 ? '':anchor(site_url('doc/update/'.$doc->pos_doc_id),' <i class="fa fa-pencil text-inverse m-r-10"></i>','data-toggle="tooltip"'); 
                                                       
-                                                      ?>
+                                                      ?> 
                                                     </div>
                                                 </td>
                                             </tr>
@@ -142,6 +147,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                 </div>
                                 &nbsp;<br>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-success">Total Record : <?php echo $total_rows ?></a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="pull-right">
+                                            <?php echo $pagination ?>
+                                        </div>
+                                    </div>
+                                </div>
 
 
                             </div>

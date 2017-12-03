@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <head>
     <?php $this->load->view('includes/header')?>
+    <link href="<?php echo base_url('assets/minimal/')?>css/pages/tab-page.css" rel="stylesheet">
     <style type="text/css">
     #myBtn {
   /*display: none;*/
@@ -74,125 +75,225 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <form action="#">
-                                    <div class="form-body">
-                                        <?php //print_r($docs)?>
-                                        <?php 
-                                            //echo "<hr>";
-                                            //print_r($child);
-                                            ?>
-                                        <h3 class="card-title">Order Info</h3>
-                                        <hr>
-                                        <div class="row p-t-20">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="control-label">Member's Name</label>
-                                                    <input type="text" id="firstName" class="form-control" value="<?php echo $docs->mod_clients_fullname?>" disabled="disabled">
-                                                </div>
-                                            </div>
+                                <h3 class="card-title">Order Info</h3>
+                                <hr>
+                                <div class="row p-t-20">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="control-label">Member's Name</label>
+                                            <input type="text" id="firstName" class="form-control" value="<?php echo $docs->mod_clients_fullname?>" disabled="disabled">
                                         </div>
-                                        <!--/row-->
-                                        <h3 class="box-title m-t-40">Product List</h3>
-                                        <hr>
-                                        <?php foreach($child as $val):?>
+                                    </div>
+                                </div>
+                                <ul class="nav nav-tabs customtab" role="tablist">
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab" aria-expanded="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab" aria-expanded="false"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Add Invoice</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages2" role="tab" aria-expanded="false"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">History</span></a> </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="home2" role="tabpanel" aria-expanded="true">
+                                        <div class="p-20">
+                                            <table class="table table-hover success-bordered-table color-bordered-table" style="font-weight: 500">
+                                            <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th width="10%">Qty</th>
+                                                <th width="10%">Price</th>
+                                                <th></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php foreach($child as $val):?>
+                                            <tr>
+                                                <td><?php echo $val->ds_product_name?></td>
+                                                <td><?php echo $val->pos_doc_child_product_qty?></td>
+                                                <td><input type="text" class="form-control" name="proPirce[]" value="<?php echo $val->ds_product_price * $val->pos_doc_child_product_qty ?>" onkeyup="updateOrdBal();"></td>
+                                                <td><input type="text" class="form-control" value=""></td>
+                                            </tr>
+                                            <?php endforeach?>
+                                            </tbody>
+                                            <input type="hidden" value="<?php echo $docs->pos_doc_quote_price?>" id="quotePrice">
+                                        </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane p-20" id="profile2" role="tabpanel" aria-expanded="false">
                                         <div class="row">
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <label>Product</label>
-                                                    <input type="text" class="form-control" value="<?php echo $val->ds_product_name?>">
+                                        <div class="col-7">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <?php foreach($child as $val):?>
+                                                    <div class="col-lg-3">
+                                                        <a href="javascript:void(0)" onclick='addCart(<?php echo $val->ds_product_id?>);'>
+                                                        <div class="card card-body card-body-shadow" style="color:#333">
+                                                            <div class=""><strong><?php echo $val->ds_product_name?></strong></div>
+
+                                                        </div>
+                                                        </a>
+
+                                                        <!--TEMPLATES-->
+                                                        <div style="display: none">
+                                                            <div id="pro_26" class="card product_well" style="margin-bottom: 0px">
+                                                                <div class="card-header" role="tab" id="heading26">
+                                                                    <h5 class="mb-0">
+
+                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#coll_attr" aria-expanded="false" aria-controls="coll_attr">
+                                                                  <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1"><span class="qtyDisplay">1</span>&nbsp;x&nbsp;Aromatherapy Facial</h5>
+                                                                <span class="priceDisplay">RM&nbsp;0.00</span>
+                                                            </div>
+
+                                                            <small class="text-muted"></small></a><small class="text-muted"><a href="javascript:void(0)" class="delBtn">remove</a></small>
+                                                                
+                                                              </h5> </div>
+                                                                <div id="coll_attr" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                                    <div class="card-body" style="box-shadow: 2px 2px 15px 0px rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.1) !important">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label">Quantity</label>
+                                                                                    <input type="hidden" class="productID" value="26">
+                                                                                    <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)" value="1">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label">Price</label>
+                                                                                    <input type="hidden" class="form-control amtInput" value="0.00">
+                                                                                    <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="0.00">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label">Taken</label>
+                                                                                    <input type="number" class="form-control takenInput" value="" min="0">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <?php endforeach?>
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label>Quantity</label>
-                                                    <input type="text" class="form-control" value="<?php echo $val->pos_doc_child_product_qty?>">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label>Price</label>
-                                                    <input type="text" class="form-control" value="<?php echo $val->ds_product_price?>">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <div class="form-group">
-                                                    <label>PV</label>
-                                                    <input type="number" class="form-control" name="pv[]" onkeyup="update()" value="0.00">
-                                                </div>
-                                            </div>
-                                            <!--/span-->
                                         </div>
-                                        <?php endforeach?>
+                                        <div class="col-4">
+                                            <form id="cashierForm" action="<?php echo site_url('cash_sales/create_action')?>" method="post">
+                                            <div class="card">
+                                                
+                                                <div class="card-body">
+                                                    <div class="row">
+
+                                                        <div class="list-group col-12" style="padding-left: 16px;">
+                                                            <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
+                                                                <div class="product_well" style="display: none">
+                                                                </div>
+                                                            </div>
+                                                            &nbsp;<br>
+                                                        </div>
+                                                        <div class="list-group col-12" style="padding-left: 16px;">
+                                                            <div id="accordion" class="nav-accordion" role="tablist" aria-multiselectable="true">
+                                                                <div class="product_well" style="display: none">
+                                                                </div><div id="div_1512263311066" class="card product_well" style="margin-bottom: 0px">
+                                                            <div class="card-header" role="tab" id="heading23">
+                                                                <h5 class="mb-0">
+
+                                                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse_1512263311066" aria-expanded="false" aria-controls="collapse_1512263311066">
+                                                              <div class="d-flex w-100 justify-content-between">
+                                                            <h5 class="mb-1"><span class="qtyDisplay" id="qtyDisplay_1512263311066">1</span>&nbsp;x&nbsp;CBC Treatment</h5>
+                                                            <span class="priceDisplay">RM 0</span>
+                                                        </div>
+
+                                                        <small class="text-muted"></small></a><small class="text-muted"><a href="#collapse_1512263311066" class="delBtn" aria-controls="collapse_1512263311066" onclick="$('#div_1512263311066').remove();singleUpdate(null)">remove</a></small>
+                                                            
+                                                          </h5> </div>
+                                                            <div id="collapse_1512263311066" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Quantity</label>
+                                                                                <input type="hidden" class="productID" value="23" name="productID[]">
+                                                                                <input type="number" class="form-control qtyInput" onkeyup="singleUpdate(this,null)" min="1" onchange="singleUpdate(this,null)" value="1" id="qtyInput_1512263311066" name="subItem[]">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Price</label>
+                                                                                <input type="hidden" class="form-control amtInput" value="0" id="amtInput_1512263311066" name="subAmt[]">
+                                                                                <input type="number" class="form-control priceInput" onkeyup="singleUpdate(this,null)" onchange="singleUpdate(this,null)" value="0.00" id="priceInput_1512263311066" name="subPrice[]">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <div class="form-group">
+                                                                                <label class="control-label">Taken</label>
+                                                                                <input type="number" class="form-control takenInput" value="" min="0" id="takenInput_1512263311066" name="subTaken[]" max="1">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            </div>
+                                                            &nbsp;<br>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <!--<input id="lastRandom" type="text">-->
+                                                            
+                                                            <a href="javascript:void(0)" onclick="$('#salesNoteID').show();(this).hide()"><small>Add Sales Note</small></a>
+                                                            <div style="display: none" id="salesNoteID">
+                                                            <hr>
+                                                            <textarea class="form-control" placeholder="Add Sales Note" name="salesNote" rows="6"></textarea>
+                                                            </div>
+                                                            <hr>
+                                                            <div>Sub-total <span class="pull-right" style="font-weight: 500" id="subtotalDisplay">RM 0.00</span></div>
+                                                            <div>Discount <span class="pull-right" style="font-weight: 500">- RM 0.00</span></div>
+                                                            <div>GST 6% <span class="pull-right" style="font-weight: 500" id="gstDisplay">RM 0.00</span></div>
+                                                            <hr>
+                                                            <div>Total <span class="pull-right" style="font-weight: 500;font-size: 25px" id="totalAmtDisplay">RM 0.00</span> <small>(<span id="totalItemDisplay">0</span> Items)</small></div>
+
+
+                                                            <!-- HIDDEN SUBMIT-->
+                                                            <input type="hidden" id="hiddenMethod" name="hiddenMethod" value="">
+                                                            <input type="hidden" id="hiddenOrder" name="hiddenOrder" value="">
+                                                            <input type="hidden" id="paymentAmt" name="paymentAmt">
+                                                            <input type="hidden" id="paymentGst" name="paymentGst">
+                                                            <input type="hidden" id="paymentTotal" name="paymentTotal">
+                                                            <input type="hidden" id="docType" name="docType">
+                                                            <input type="hidden" name="docDate" value="<?php echo date('Y-m-d')?>">
+                                                            <input type="hidden" value="<?php echo $this->session->userdata('outlet_id')?>" name="outletID">
+
+                                                            <!-- HIDDEN SUBMIT-->
+                                                        </div>
+                                                        <div class="col-12">
+                                                        &nbsp;<br>
+                                                        <button type="button" class="btn btn-block btn-lg btn-info" data-toggle="modal" data-target="#paymentModal" onclick="changeDocType(1)">PAY</button>
+                                                        <!--
+                                                        <button type="button" class="btn btn-block btn-lg btn-success" data-toggle="modal" data-target="#generateOrder" onclick="changeDocType(2)">GENERATE ORDER</button>
+                                                        <button type="button" class="btn btn-block btn-lg btn-default">HOLD BILL</button>-->
+                                                        </div>
+                                                        <!--</form>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+                                        </div>
                                     </div>
-                                    <div class="form-actions">
-                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
-                                        <button type="button" class="btn btn-inverse">Cancel</button>
-                                    </div>
-                                </form>
+                                    <div class="tab-pane p-20" id="messages2" role="tabpanel" aria-expanded="false">3</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
                 <div id="myBtn" class="text-right">
-                    Order Amount:&nbsp; &nbsp;<span><?php echo $docs->pos_doc_quote_price?></span><br>
-                    Unassigned:&nbsp; &nbsp;<span>123</span><br>
-                    PV BAL:&nbsp; &nbsp;<span id="pvBalDisplay"><?php echo $docs->pos_doc_pv_given?></span><br>
+                    Order Amount :&nbsp; &nbsp;<span><?php echo $docs->pos_doc_quote_price?></span><br>
+                    Amount Balance :&nbsp; &nbsp;<span id="orderBalDisplay"><?php echo $docs->pos_doc_quote_price?></span><br>
+                    PV BAL :&nbsp; &nbsp;<span id="pvBalDisplay"><?php echo $docs->pos_doc_pv_given?></span><br>
                 </div>
                 <!-- End PAge Content -->
-                <!-- Right sidebar -->
-                <!-- .right-sidebar -->
-                <div class="right-sidebar">
-                    <div class="slimscrollright">
-                        <div class="rpanel-title"> Service Panel <span><i class="ti-close right-side-toggle"></i></span> </div>
-                        <div class="r-panel-body">
-                            <ul id="themecolors" class="m-t-20">
-                                <li><b>With Light sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default" class="default-theme working">1</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green" class="green-theme">2</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red" class="red-theme">3</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue" class="blue-theme">4</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple" class="purple-theme">5</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna" class="megna-theme">6</a></li>
-                                <li class="d-block m-t-30"><b>With Dark sidebar</b></li>
-                                <li><a href="javascript:void(0)" data-theme="default-dark" class="default-dark-theme">7</a></li>
-                                <li><a href="javascript:void(0)" data-theme="green-dark" class="green-dark-theme">8</a></li>
-                                <li><a href="javascript:void(0)" data-theme="red-dark" class="red-dark-theme">9</a></li>
-                                <li><a href="javascript:void(0)" data-theme="blue-dark" class="blue-dark-theme">10</a></li>
-                                <li><a href="javascript:void(0)" data-theme="purple-dark" class="purple-dark-theme">11</a></li>
-                                <li><a href="javascript:void(0)" data-theme="megna-dark" class="megna-dark-theme ">12</a></li>
-                            </ul>
-                            <ul class="m-t-20 chatonline">
-                                <li><b>Chat option</b></li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/1.jpg" alt="user-img" class="img-circle"> <span>Varun Dhavan <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/2.jpg" alt="user-img" class="img-circle"> <span>Genelia Deshmukh <small class="text-warning">Away</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/3.jpg" alt="user-img" class="img-circle"> <span>Ritesh Deshmukh <small class="text-danger">Busy</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/4.jpg" alt="user-img" class="img-circle"> <span>Arijit Sinh <small class="text-muted">Offline</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/5.jpg" alt="user-img" class="img-circle"> <span>Govinda Star <small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/6.jpg" alt="user-img" class="img-circle"> <span>John Abraham<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/7.jpg" alt="user-img" class="img-circle"> <span>Hritik Roshan<small class="text-success">online</small></span></a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)"><img src="<?php echo base_url()?>/assets/images/users/8.jpg" alt="user-img" class="img-circle"> <span>Pwandeep rajan <small class="text-success">online</small></span></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Right sidebar -->
             </div>
             <!-- End Container fluid  -->
             <!-- footer -->
@@ -205,19 +306,63 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- All Jquery -->
     <?php $this->load->view('includes/jsFooter')?>
     <script type="text/javascript">
+        updateOrdBal();
+        function addCart(pro_id){
+            var div_templates;
+            var running_number;
 
-        function update(){
-            //var pvBal = parseFloat(0);
-            //var pvBal = $("input[name='pv[]'").map(function(){return $(this).val();}).get();
-            var pvGiven = <?php echo $docs->pos_doc_pv_given?>;
-            var pvBal = $("input[name='pv[]'").map(function(){return $(this).val();}).get().join("+");
-            pvBal = pvGiven - eval(pvBal);
-            //var eval_pvBal = eval(pvBal.join("+"));
-            $("#pvBalDisplay").html(eval(pvBal));
+            running_number = $.now();
+
+            //$("#lastRandom").val(running_number);
+
+            $("#pro_"+pro_id).clone().prop({ id: "div_"+running_number}).insertAfter("div.product_well:last");
+
+
+            $("#div_"+running_number+" a").attr("href", "#collapse_"+running_number);
+            $("#div_"+running_number+" a").attr("aria-controls", "collapse_"+running_number);
+            $("#div_"+running_number+" .collapse").attr("id", "collapse_"+running_number);
+            $("#coll_attr").attr("id", "#collapse_"+running_number);
+            $("#div_"+running_number+" .qtyDisplay").attr("id","qtyDisplay_"+running_number);
+            $("#div_"+running_number+" .delBtn").attr("onclick","$('#div_"+running_number+"').remove();singleUpdate(null)");
+
+            $("#div_"+running_number+" .priceInput").attr("id","priceInput_"+running_number);
+            $("#div_"+running_number+" .priceInput").attr("name","subPrice[]");
+
+            $("#div_"+running_number+" .amtInput").attr("id","amtInput_"+running_number);
+            $("#div_"+running_number+" .amtInput").attr("name","subAmt[]");
+
+            $("#div_"+running_number+" .qtyInput").attr("id","qtyInput_"+running_number);
+            $("#div_"+running_number+" .qtyInput").attr("name","subItem[]");
+
+            $("#div_"+running_number+" .takenInput").attr("id","takenInput_"+running_number);
+            $("#div_"+running_number+" .takenInput").attr("name","subTaken[]");
+
+            $("#div_"+running_number+" .productID").attr("name","productID[]");
+
+            
+            
+
+            //var subAmt = $("input[name='pname[]']")
+            //  .map(function(){return $(this).val();}).get();
+            //var 
+            //singleUpdate(null,running_number);
+            //methodUpdate();
+            
+        }
+        function updateOrdBal(){
+            var proPriceSum = $("input[name='proPirce[]'").map(function(){return $(this).val();}).get();
+            var eval_proPriceSum = eval(proPriceSum.join("+"));
+
+            var orderBal = $("#quotePrice").val() - eval_proPriceSum;
+
+            $("#orderBalDisplay").html(orderBal);
+            console.log(orderBal);
+            
         }
 
 
-        window.onscroll = function() {scrollFunction()};
+
+        //window.onscroll = function() {scrollFunction()};
         /*
         function scrollFunction() {
             if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {

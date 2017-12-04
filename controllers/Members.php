@@ -195,6 +195,14 @@ class Members extends CI_Controller
 
             $this->Members_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
+
+
+            if($this->input->post('redirect')){
+            	redirect($this->input->post('redirect'));
+            }
+
+
+
             if($redirect){
             	redirect(site_url($redirect));
             }else{

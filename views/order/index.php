@@ -90,7 +90,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             
                                         <?php if($this->session->userdata('outlet_id')):?>
                                         <?php //echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Order', 'class="btn btn-success"'); ?>&nbsp;
-                                        <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> &nbsp;Manual Invoice', 'class="btn btn-success"'); ?>&nbsp;
+                                        <?php echo anchor(site_url('order/manual_invoice'),'<i class="mdi-library-plus mdi"></i> &nbsp;Manual Invoice', 'class="btn btn-success"'); ?>&nbsp;
                                         <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> &nbsp;Add Sales', 'class="btn btn-success"'); ?>
                                         <?php endif?>
                                         </div>
@@ -127,11 +127,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <td class="text-right"><?php echo $doc->pos_doc_quote_price ?></td>
                                                 <td style="text-align:center" width="200px">
                                                     <div class="btn-group">
-                                                      <?php
-                                                      if($doc->pos_doc_type_id==1){
-                                                        echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
-                                                    }else{
+                                                    <?php
+                                                    if($doc->pos_doc_type_id==2){
+                                                        
                                                         echo anchor(site_url('order/order_details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
+                                                    }else{
+                                                        echo anchor(site_url('cash_sales/details/'.$doc->pos_doc_id),'<i class="fa fa-search text-inverse m-r-10"></i>&nbsp;','data-toggle="tooltip"');
                                                     }
                                                       
                                                       echo $doc->pos_doc_date >= date('Y-m-d') ? anchor(site_url('cash_sales/cancel/'.$doc->pos_doc_id),'<i class="mdi mdi-content-cut text-inverse m-r-10"></i>&nbsp;','onclick="javasciprt: return confirm(\'Cancel , Are You Sure ?\')"') : ''; 

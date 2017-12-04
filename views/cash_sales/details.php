@@ -92,8 +92,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <tr>
                                                     <th class="text-center">#</th>
                                                     <th>Description</th>
+                                                    <?php if($docs->pos_doc_type_id != 8):?>
                                                     <th class="text-right">Quantity</th>
                                                     <th class="text-right">Unit Price</th>
+                                                    <?php endif?>
                                                     <th class="text-right">Total</th>
                                                 </tr>
                                             </thead>
@@ -104,9 +106,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php $i++?>
                                                 <tr>
                                                     <td class="text-center"><?php echo $i?></td>
-                                                    <td><?php echo $cv->ds_product_name?></td>
+                                                    <td><?php echo $docs->pos_doc_type_id == 8 ? $cv->pos_doc_child_description:$cv->ds_product_name?></td>
+                                                    <?php if($docs->pos_doc_type_id != 8):?>
                                                     <td class="text-right"> <?php echo $cv->pos_doc_child_product_qty ?> </td>
                                                     <td class="text-right"> <?php echo $cv->pos_doc_child_product_price ?> </td>
+                                                    <?php endif?>
                                                     <td class="text-right"> <?php echo $cv->pos_doc_child_product_total_price ?> </td>
                                                 </tr>
                                             <?php endforeach?>
@@ -135,7 +139,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!--  PRINT AREA  -->
 
 
-                    <div class="col-md-12" style="display:none">
+                    <div class="col-md-12" style="display:noe">
                         <div class="card card-body printableArea" id="printableArea" style="color:#000">
                             <h3><b>TAX INVOICE</b> <span class="pull-right" style="font-size: 30px;font-weight: 500;">#<?php echo $docs->pos_doc_inv_id?></span></h3>
                             <hr>
@@ -173,8 +177,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <tr style="border-bottom: 2px dotted #000;">
                                                     <th class="text-center">#</th>
                                                     <th>Description</th>
+                                                    <?php if($docs->pos_doc_type_id != 8):?>
                                                     <th class="text-right">Quantity</th>
-                                                    <th class="text-right">Unit<br> Price</th>
+                                                    <th class="text-right">Unit Price</th>
+                                                    <?php endif?>
                                                     <th class="text-right">Total</th>
                                                 </tr>
                                             </thead>
@@ -185,10 +191,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php $i++?>
                                                 <tr>
                                                     <td class="text-center" style="color: #000;font-weight: 500;"><?php echo $i?></td>
-                                                    <td style="color: #000;font-weight: 500;"><?php echo $cv->ds_product_name?></td>
-                                                    <td class="text-right" style="color: #000;font-weight: 500;"> <?php echo $cv->pos_doc_child_product_qty ?> </td>
-                                                    <td class="text-right" style="color: #000;font-weight: 500;"> <?php echo $cv->ds_product_price ?> </td>
-                                                    <td class="text-right" style="color: #000;font-weight: 500;"> <?php echo sprintf("%.02f",$cv->pos_doc_child_product_qty * $cv->ds_product_price) ?> </td>
+                                                    <td style="color: #000;font-weight: 500;"><?php echo $docs->pos_doc_type_id == 8 ? $cv->pos_doc_child_description:$cv->ds_product_name?></td>
+                                                    <?php if($docs->pos_doc_type_id != 8):?>
+                                                    <td class="text-right"> <?php echo $cv->pos_doc_child_product_qty ?> </td>
+                                                    <td class="text-right"> <?php echo $cv->pos_doc_child_product_price ?> </td>
+                                                    <?php endif?>
+                                                    <td class="text-right" style="color: #000;font-weight: 500;"> <?php echo $cv->pos_doc_child_product_total_price ?> </td>
                                                 </tr>
                                             <?php endforeach?>
                                             </tbody>
@@ -206,7 +214,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <hr>
                                     <div class="text-center">
                                         <div>
-                                        <p>Goods sold are not refundable and exchangeable</p>
+                                        <p style="color: #000;font-weight: 500;">Goods sold are not refundable and exchangeable</p>
                                     </div>
                                         <!--<button class="btn btn-danger" type="submit"> Proceed to payment </button>-->
                                     </div>

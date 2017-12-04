@@ -89,8 +89,9 @@ class Doc_model extends CI_Model{
 		    case 2:
 		        $search = 'OD'.$branch_info->ds_branch_code.date('Y'); // GET NEXT ORDER
 		        break;
-		    case 3:
+		    case 8:
 		        //code to be executed if n=label3;
+		    	$search = $branch_info->ds_branch_code.date('Y'); // GET NEXT INVOICE
 		        break;
 		    default:
 		        //code to be executed if n is different from all labels;
@@ -188,6 +189,9 @@ class Doc_model extends CI_Model{
    		$query = $this->db->get('pos_doc');
 
    		return $query->result();
+   	}
+   	function manual_inv($main,$child){
+
    	}
 }
 

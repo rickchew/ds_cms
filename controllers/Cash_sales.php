@@ -51,6 +51,7 @@ class Cash_sales extends CI_Controller {
 		$mainArr['pos_doc_pv_given'] = isset($orderJson[1]->value) ? $orderJson[1]->value:0;
 		$mainArr['pos_doc_note'] =  $this->input->post('salesNote');
 		$mainArr['pos_doc_order_id'] = $this->input->post('orderID') ? $this->input->post('orderID'):0;
+		
 		//$mainArr['pos_doc_quote_price'] = 
 
 		$mainID = $this->doc_model->save_main($mainArr);
@@ -83,6 +84,7 @@ class Cash_sales extends CI_Controller {
 				'pos_doc_child_product_taken' => $this->input->post('docType') == 2 ? 0:$this->input->post('subTaken')[$i], //ZERO taken if order
 				'pos_doc_child_product_price' => $this->input->post('subPrice')[$i],
 				'pos_doc_child_product_id' => $this->input->post('productID')[$i],
+				'pos_doc_child_description' => $this->input->post('description'),
 				//'pos_doc_child_product_total_price' =>
 
 			);

@@ -100,6 +100,9 @@ class Order extends CI_Controller {
         redirect('order/order_details/'.$order_id);
         //print_r($itemArr);
     }
+    public function manual_invoice(){
+        $this->load->view('order/manual_invoice');
+    }
     /*
     public function test(){
         $this->load->model('doc_model');

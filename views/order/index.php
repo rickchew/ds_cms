@@ -57,7 +57,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="alert alert-success"><?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?> </div>&nbsp;<br>&nbsp;<br>
                                 <?php endif?>
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-8">
                                         <form action="<?php echo site_url('order/index'); ?>" class="form-inline" method="get">
                                             <div class="input-group">
                                                 <input type="text" class="form-control" name="q" value="<?php echo $q; ?>" spellcheck="false" autocomplete="off">
@@ -84,12 +84,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         &nbsp;<br>
 
                                     </div>
-                                    <div class="col-md-2 ">
+                                    <div class="col-md-4 ">
                                         <div class="pull-right">
                                         <?php //print_r($branch_list)?>
                                             
                                         <?php if($this->session->userdata('outlet_id')):?>
                                         <?php //echo anchor(site_url('package_sales'),'<i class="mdi-library-plus mdi"></i> New Order', 'class="btn btn-success"'); ?>&nbsp;
+                                        <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> &nbsp;Manual Invoice', 'class="btn btn-success"'); ?>&nbsp;
                                         <?php echo anchor(site_url('cash_sales'),'<i class="mdi-library-plus mdi"></i> &nbsp;Add Sales', 'class="btn btn-success"'); ?>
                                         <?php endif?>
                                         </div>

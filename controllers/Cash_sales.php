@@ -50,7 +50,7 @@ class Cash_sales extends CI_Controller {
 		$mainArr['pos_doc_quote_price'] = isset($orderJson[0]->value) ? $orderJson[0]->value:0;
 		$mainArr['pos_doc_pv_given'] = isset($orderJson[1]->value) ? $orderJson[1]->value:0;
 		$mainArr['pos_doc_note'] =  $this->input->post('salesNote');
-		$mainArr['pos_doc_order_id'] = $this->input->post('orderID') ? $this->input->post('orderID'):null;
+		$mainArr['pos_doc_order_id'] = $this->input->post('orderID') ? $this->input->post('orderID'):0;
 		//$mainArr['pos_doc_quote_price'] = 
 
 		$mainID = $this->doc_model->save_main($mainArr);

@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                                 <ul class="nav nav-tabs customtab" role="tablist">
-                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab" aria-expanded="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Home</span></a> </li>
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#home2" role="tab" aria-expanded="true"><span class="hidden-sm-up"><i class="ti-home"></i></span> <span class="hidden-xs-down">Commision Setting</span></a> </li>
                                     <?php if($docs->pos_doc_order_saved == 1):?> <!-- IF ORDER SAVED-->
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#profile2" role="tab" aria-expanded="false"><span class="hidden-sm-up"><i class="ti-user"></i></span> <span class="hidden-xs-down">Add Invoice</span></a> </li>
                                     <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#messages2" role="tab" aria-expanded="false"><span class="hidden-sm-up"><i class="ti-email"></i></span> <span class="hidden-xs-down">History</span></a> </li>
@@ -100,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <?php //print_r($this->input->post())?>
                                         <form action="<?php echo site_url('order/order_update/'.$docs->pos_doc_id)?>" method="post">
                                         <div class="p-20">
+                                            <h2>Commision Scheme Setting</h2>&nbsp;<br>
                                             <table class="table table-hover success-bordered-table color-bordered-table" style="font-weight: 500">
                                             <thead>
                                             <tr>

@@ -77,7 +77,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="pull-right text-right">
                                         <address>
-                                            <h3>To,</h3>
+                                            <!--<h3>To,</h3>-->
                                             <h4 class="font-bold"><?php echo $docs->mod_clients_fullname?></h4>
                                             <p class="text-muted m-l-30">&nbsp;<?php echo $docs->mod_clients_contact_1?></p>
                                             <p class="m-t-30"><b>Invoice Date :</b> <strong> <?php echo date('d-m-Y', strtotime($docs->pos_doc_date));?></strong></p>
@@ -114,6 +114,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <td class="text-right"> <?php echo $cv->pos_doc_child_product_total_price ?> </td>
                                                 </tr>
                                             <?php endforeach?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><?php echo $docs->pos_doc_note?></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -139,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <!--  PRINT AREA  -->
 
 
-                    <div class="col-md-12" style="display:noe">
+                    <div class="col-md-12" style="display:none">
                         <div class="card card-body printableArea" id="printableArea" style="color:#000">
                             <h3><b>TAX INVOICE</b> <span class="pull-right" style="font-size: 30px;font-weight: 500;">#<?php echo $docs->pos_doc_inv_id?></span></h3>
                             <hr>
@@ -199,6 +203,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                     <td class="text-right" style="color: #000;font-weight: 500;"> <?php echo $cv->pos_doc_child_product_total_price ?> </td>
                                                 </tr>
                                             <?php endforeach?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td><?php echo $docs->pos_doc_note?></td>
+                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>

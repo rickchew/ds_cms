@@ -98,12 +98,16 @@ class Products extends CI_Controller{
         'attribute_sub_list' => $this->product_attribute_sub_model->get_all(),
 	);
         $data['active_menu_id'] = '82';
+        //print_r($_POST);
         $this->load->view('products/ds_product_form', $data);
     }
     
     public function create_action(){
+        $this->load->model('product_attribute_sub_model');
         $this->_rules();
 
+        
+        
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
@@ -122,9 +126,52 @@ class Products extends CI_Controller{
             'ds_product_is_service' => $isService,
     	    );
 
-            $this->Products_model->insert($data);
+            $proID = $this->Products_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
+
+            /*---------------------------------
+
+                Attribute SUB batch insert
+
+            ----------------------------------*/
+            //$mainArr = array();
+            //$subArr = array();
+            $attArr = array();
+            foreach($this->input->post() as $key=>$val){
+                if(explode("_", $key)[0] == "att"){
+
+                    foreach($val as $v){
+                        //echo "V:";
+                        //print_r($v);
+
+                        $dat = array(
+                            'ds_product_attribute_product_id' => $proID,
+                            'ds_product_attribute_id' => explode("_", $key)[1],
+                            'ds_product_attribute_sub_id' => $v,
+                            'ds_product_attribute_has_sub_enable' => 1,
+                        );
+                        array_push($attArr,$dat);
+                    }
+                    //echo "| VAL:";
+                    //print_r($val);
+                    
+                    //print_r($key);
+                    //echo " | KEY ARR";
+                    //print_r(explode("_", $key));
+                    //echo "<hr>";
+                    //echo "<br>";
+                }
+            }
+ 
+            $this->product_attribute_sub_model->has_sub_batch_insert($attArr); // Batch Insert product has attribute
+            /*
+            echo "<pre>";
+            print_r($attArr);
+            echo "</pre>";*/
+
+
             redirect(site_url('products'));
+            //print_r($_POST);
         }
     }
     

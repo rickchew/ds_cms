@@ -74,6 +74,9 @@ class Product_attribute_sub_model extends CI_Model
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
     }
+    function has_sub_batch_insert($data){
+        $this->db->insert_batch('ds_product_has_attribute', $data); 
+    }
 
 }
 

@@ -69,7 +69,7 @@ class Doc_model extends CI_Model{
 		$this->db->insert('pos_doc',$arr);
 		return $this->db->insert_id();
 	}
-	function getNextInv($branch){
+	function getNextInv($branch,$doc_type=null){
 		//$this->load->model('branch_model');
 		//$branch_info = $this->branch_model->getByID($branchID);
 
@@ -97,7 +97,22 @@ class Doc_model extends CI_Model{
 		        //code to be executed if n is different from all labels;
 		}
 		
-		
+		if($doc_type){
+			switch ($doc_type) {
+		    case 1:
+		        $search = $branch_info->ds_branch_code.date('Y'); // GET NEXT INVOICE
+		        break;
+		    case 2:
+		        $search = 'OD'.$branch_info->ds_branch_code.date('Y'); // GET NEXT ORDER
+		        break;
+		    case 8:
+		        //code to be executed if n=label3;
+		    	$search = $branch_info->ds_branch_code.date('Y'); // GET NEXT INVOICE
+		        break;
+		    default:
+		        //code to be executed if n is different from all labels;
+			}
+		}
 		$this->db->where("pos_doc_inv_id LIKE '$search%'");
 		$this->db->order_by('pos_doc_inv_id','DESC');
 

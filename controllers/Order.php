@@ -102,7 +102,9 @@ class Order extends CI_Controller {
     }
     public function manual_invoice(){
         $this->load->model('members_model');
+        $this->load->model('doc_model');
 
+        $data['inv'] = $this->doc_model->getNextInv($this->session->userdata('outlet_id'),'8');
         $data['customers'] = $this->members_model->get_all();
         $data['action'] = site_url('members/create_action/order/manual_invoice');
 
@@ -111,7 +113,7 @@ class Order extends CI_Controller {
     public function manual_create(){
         $this->load->model('doc_model');
 
-        print_r($this->input->post());
+        //print_r($this->input->post());
 
         /*----------------------------
 
@@ -180,6 +182,8 @@ class Order extends CI_Controller {
         }
         //print_r($itemArr);
         $this->doc_model->batch_save_child($itemArr);
+
+        redirect('cash_sales/details/'.$mainID);
     }
     /*
     public function test(){

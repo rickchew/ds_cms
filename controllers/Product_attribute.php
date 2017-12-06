@@ -59,9 +59,9 @@ class Product_attribute extends CI_Controller
         $data = array(
             'button' => 'Create',
             'action' => site_url('product_attribute/create_action'),
-	    'ds_product_attribute_id' => set_value('ds_product_attribute_id'),
-	    'ds_product_attribute_name' => set_value('ds_product_attribute_name'),
-	    'ds_product_attribute_enable' => set_value('ds_product_attribute_enable'),
+    	    'ds_product_attribute_id' => set_value('ds_product_attribute_id'),
+    	    'ds_product_attribute_name' => set_value('ds_product_attribute_name'),
+    	    'ds_product_attribute_enable' => set_value('ds_product_attribute_enable'),
 	);
         $this->load->view('product_attribute/ds_product_attribute_form', $data);
     }
@@ -72,9 +72,10 @@ class Product_attribute extends CI_Controller
         if ($this->form_validation->run() == FALSE) {
             $this->create();
         } else {
+            $enable = $this->input->post('ds_product_enable') ? TRUE:FALSE;
             $data = array(
 		'ds_product_attribute_name' => $this->input->post('ds_product_attribute_name',TRUE),
-		'ds_product_attribute_enable' => $this->input->post('ds_product_attribute_enable',TRUE),
+		'ds_product_attribute_enable' => $enable,
 	    );
             $this->Product_attribute_model->insert($data);
             $this->session->set_flashdata('message', 'Create Record Success');
@@ -134,6 +135,16 @@ class Product_attribute extends CI_Controller
 	$this->form_validation->set_rules('ds_product_attribute_enable', 'ds product attribute enable', 'trim');
 	$this->form_validation->set_rules('ds_product_attribute_id', 'ds_product_attribute_id', 'trim');
 	$this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
+    }
+    public function product_attribute_frame($product_id){
+        $this->load->model('product_attribute_model');
+        $this->load->model('product_attribute_sub_model');
+        
+        $data =  array(
+            'attribute_list' => $this->product_attribute_model->get_all(),
+            'attribute_sub_list' => $this->product_attribute_sub_model->get_all(), 
+        );
+        $this->load->view('product_attribute/product_attribute_frame',$data);
     }
 
     

@@ -53,19 +53,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- End Bread crumb and right sidebar toggle -->
                 <!-- Start Page Content -->
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-8">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-8">
                                         <form action="<?php echo site_url('order/manual_create')?>" method="post">
-                                        <select class="form-control select2" onchange="checkCustomer()" name="membersID" id="customer_select">
-                                            <option value="898">-- Cash Sales --</option>
-                                            <option value="0">- ADD NEW CUSTOMER -</option>
-                                            <?php foreach($customers as $customer):?>
-                                            <option value="<?php echo $customer->mod_clients_id?>"><?php echo $customer->mod_clients_nric ? $customer->mod_clients_fullname.'('.$customer->mod_clients_nric.')':$customer->mod_clients_fullname?></option>
-                                            <?php endforeach?>
-                                        </select>&nbsp;<br>
+                                        
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
@@ -76,13 +70,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <tbody>
                                                 <?php for($i=0;$i<10;$i++):?>
                                                 <tr>
-                                                    <td><input type="text" class="form-control" name="subItem[]"></td>
-                                                    <td class="text-right"><input type="text" class="form-control text-right" onkeyup="totalUpdate()" name="subAmt[]"></td>
+                                                    <td><input type="text" class="form-control" name="subItem[]" autocomplete="off"></td>
+                                                    <td class="text-right"><input type="text" class="form-control text-right" onkeyup="totalUpdate()" name="subAmt[]" autocomplete="off"></td>
                                                 </tr>
                                                 <?php endfor?>
                                                 <tr>
-                                                    <td class="text-right"><textarea name="salesNote" style="min-height: 100px;" class="form-control" placeholder="Sales Note"></textarea></td>
-                                                    <td class="text-right"><span id="subDisplay" onkeyup="totalUpdate()"></span></td>
+                                                    <td class="text-right" colspan="2"><textarea name="salesNote" style="min-height: 100px;" class="form-control" placeholder="Sales Note"></textarea></td>
                                                 </tr>
                                                 <tr>
                                                     <td class="text-right"><h4>Sub Total</h4></td>
@@ -104,10 +97,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <input type="hidden" name="paymentGst" id="paymentGst">
                                         <input type="hidden" name="paymentTotal" id="paymentTotal">
                                         <input type="hidden" value="<?php echo $this->session->userdata('outlet_id')?>" name="outletID">
+                                        <input type="hidden" name="membersID" id="membersID">
                                         <button type="submit" class="btn btn-success"> Submit</button>
                                         </form>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row p-10">
+                                    <div class="form-group">
+                                    <label class="control-label">Customer</label>
+                                    <select class="form-control select2" onchange="checkCustomer();$('#membersID').(this.value)" id="customer_select">
+                                        <option value="898">-- Cash Sales --</option>
+                                        <option value="0">- ADD NEW CUSTOMER -</option>
+                                        <?php foreach($customers as $customer):?>
+                                        <option value="<?php echo $customer->mod_clients_id?>"><?php echo $customer->mod_clients_nric ? $customer->mod_clients_fullname.'('.$customer->mod_clients_nric.')':$customer->mod_clients_fullname?></option>
+                                        <?php endforeach?>
+                                    </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Invoice Number</label>
+                                        <input type="text" id="firstName" class="form-control" value="<?php echo $inv?>" disabled="disabled">
+                                    </div>
+
+                                </div>
+
                             </div>
                         </div>
                     </div>
